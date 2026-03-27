@@ -8,22 +8,16 @@
     <style>
         :root { --c1: #e74c3c; --c2: #2c3e50; --c3: #27ae60; --c4: #f1c40f; --c5: #00e5ff; --c6: #050505; --c8: #111; }
         * { box-sizing: border-box; }
-        
-        /* Ajuste para iPhone: Pantalla Fija */
         html, body { height: 100%; overflow: hidden; position: fixed; width: 100%; }
-
         body { -webkit-user-select: none; user-select: none; font-family: 'Segoe UI', sans-serif; background: var(--c6); color: white; margin: 0; display: flex; flex-direction: column; align-items: center; padding: env(safe-area-inset-top) 5px env(safe-area-inset-bottom) 5px; }
         
-        /* Pantalla de Inicio / Manual */
+        /* Pantalla de Inicio / Pasos */
         #p-l { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #000; display: flex; justify-content: center; align-items: center; z-index: 9999; padding: 20px; }
         .c-l { background: var(--c8); border: 1px solid var(--c5); border-radius: 20px; padding: 35px 20px; width: 100%; max-width: 350px; text-align: center; box-shadow: 0 0 30px rgba(0,229,255,0.15); }
+        .manual-box { text-align: left; font-size: 11px; background: #000; padding: 15px; border-radius: 12px; border: 1px solid #333; margin-bottom: 20px; max-height: 250px; overflow-y: auto; color: #ccc; }
         
-        .manual-box { text-align: left; font-size: 11px; background: #000; padding: 15px; border-radius: 12px; border: 1px solid #333; margin-bottom: 20px; max-height: 250px; overflow-y: auto; color: #bbb; line-height: 1.4; }
-        .manual-box b { color: var(--c5); }
-        .manual-box h3 { font-size: 14px; margin: 0 0 10px 0; color: white; text-align: center; text-transform: uppercase; }
-
-        .i-s { width: 100%; background: #000; border: 1px solid #444; color: var(--c4); padding: 15px; border-radius: 12px; font-size: 20px; text-align: center; margin-bottom: 15px; outline: none; display: none; }
-        .b-a { background: var(--c5); color: #000; border: none; padding: 16px; border-radius: 12px; font-weight: 900; width: 100%; cursor: pointer; text-transform: uppercase; letter-spacing: 1px; font-size: 14px; margin-bottom: 10px; }
+        .i-s { width: 100%; background: #000; border: 1px solid #444; color: var(--c4); padding: 15px; border-radius: 12px; font-size: 20px; text-align: center; margin-bottom: 15px; outline: none; }
+        .b-a { background: var(--c5); color: #000; border: none; padding: 18px; border-radius: 12px; font-weight: 900; width: 100%; cursor: pointer; text-transform: uppercase; letter-spacing: 1px; font-size: 14px; margin-bottom: 10px; }
         .btn-buy { background: transparent; color: var(--c3); border: 1px solid var(--c3); padding: 10px; border-radius: 10px; font-size: 10px; font-weight: bold; cursor: pointer; text-decoration: none; display: block; width: 100%; text-transform: uppercase; }
 
         /* App Principal */
@@ -31,8 +25,7 @@
         .info-bar { display: flex; justify-content: space-between; background: #111; padding: 8px 12px; border-bottom: 1px solid var(--c5); font-size: 13px; width: 100%; }
         #grid { display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr; gap: 5px; flex-grow: 1; padding: 5px; width: 100%; }
         
-        /* Mesas */
-        .panel { background: var(--c8); border: 1px solid #333; border-radius: 10px; padding: 5px; display: flex; flex-direction: column; justify-content: space-between; }
+        .panel { background: var(--c8); border: 1px solid #333; border-radius: 10px; padding: 5px; display: flex; flex-direction: column; justify-content: space-between; position: relative; }
         .p-b { display: flex; justify-content: space-around; background: #151515; padding: 4px; border-radius: 6px; font-size: 10px; color: #777; }
         .d-p { background: #1a1a1a; border: 1px solid #333; border-radius: 8px; text-align: center; flex-grow: 1; display: flex; flex-direction: column; justify-content: center; margin: 4px 0; }
         .s-val { font-size: clamp(20px, 5.5vw, 32px); font-weight: 900; }
@@ -43,8 +36,7 @@
         .bola { width: 22px; height: 22px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-size: 10px; margin-right: 4px; font-weight: bold; flex-shrink: 0; }
         .u-b { background: transparent; border: 1px solid #333; color: #555; font-size: 9px; padding: 3px; border-radius: 5px; margin-top: 4px; cursor: pointer; font-weight: bold; text-transform: uppercase; }
 
-        /* WhatsApp */
-        .wsp-f { position: fixed; bottom: 20px; right: 20px; background: #25d366; width: 55px; height: 55px; border-radius: 50%; display: flex; justify-content: center; align-items: center; color: white; font-size: 30px; box-shadow: 0 4px 12px rgba(0,0,0,0.5); z-index: 10000; text-decoration: none; }
+        .wsp-f { position: fixed; bottom: 20px; right: 20px; background: #25d366; width: 55px; height: 55px; border-radius: 50%; display: flex; justify-content: center; align-items: center; color: white; font-size: 30px; z-index: 10000; text-decoration: none; }
     </style>
 </head>
 <body>
@@ -57,10 +49,10 @@
             
             <div id="m-box" class="manual-box">
                 <h3>📜 REGLAS DE SEGURIDAD</h3>
-                1. <b>Base:</b> Iniciar SIEMPRE con <b>$0.20</b>.<br>
-                2. <b>Disciplina:</b> Siga la Martingala. No suba montos por impulso.<br>
+                1. <b>Capital:</b> Ingrese su saldo total; se repartirá en las 4 mesas.<br>
+                2. <b>Base:</b> Iniciar SIEMPRE con <b>$0.20</b> por mesa.<br>
                 3. <b>Multi-Mesa:</b> Gestione cada mesa de forma independiente.<br>
-                4. <b>Responsabilidad:</b> No nos hacemos responsables por pérdidas derivadas del mal uso o ignorar la apuesta mínima.<br>
+                4. <b>Responsabilidad:</b> No nos hacemos responsables por mal uso.<br>
                 5. <b>Retirada:</b> Asegure ganancias al cumplir su meta.
             </div>
 
@@ -68,10 +60,18 @@
             
             <button id="btn-acepto" class="b-a">ACEPTO LAS REGLAS</button>
 
-            <input type="text" id="l-i" class="i-s" placeholder="LICENCIA">
-            <button class="b-a" id="btn-entrar" style="display:none;">ENTRAR AL SISTEMA</button>
+            <div id="step-1" style="display:none">
+                <input type="text" id="l-i" class="i-s" placeholder="LICENCIA">
+                <button class="b-a" id="btn-validar">VALIDAR LICENCIA</button>
+            </div>
+
+            <div id="step-2" style="display:none">
+                <p style="font-size: 12px; color: var(--c5);">SALDO TOTAL PARA LAS 4 MESAS</p>
+                <input type="number" id="c-init" class="i-s" placeholder="EJ: 100.00" step="0.01">
+                <button class="b-a" id="btn-entrar">ENTRAR AL SISTEMA</button>
+            </div>
             
-            <a href="https://wa.me/56995931641?text=Hola%20Felipe,%20quiero%20comprar%20tiempo%20para%204%20MESAS" class="btn-buy">COMPRAR LICENCIA</a>
+            <a href="https://wa.me/56995931641?text=Hola%20Felipe,%20quiero%20comprar%20tiempo%20para%204%20MESAS" class="btn-buy" id="btn-buy">COMPRAR LICENCIA</a>
         </div>
     </div>
 
@@ -85,57 +85,63 @@
 
     <script>
     (function(){
-        let _uL="", _uT="", _uS=0, _vM=[];
+        let _uL="", _uT="", _uS=0, _vM=[], _totalInit=0;
         const _uA = "https://script.google.com/macros/s/AKfycbyL48_uVFXFE3wENSlH6DDlLMM3d0VkCb2WDjJaKgijARdmpWw2SFdzRrwVu-I2vsSYGQ/exec";
 
         document.getElementById('btn-acepto').onclick = function(){
-            if (document.documentElement.requestFullscreen) document.documentElement.requestFullscreen();
-            else if (document.documentElement.webkitRequestFullscreen) document.documentElement.webkitRequestFullscreen();
             this.style.display = 'none';
             document.getElementById('m-box').style.display = 'none';
-            document.getElementById('l-i').style.display = 'block';
-            document.getElementById('btn-entrar').style.display = 'block';
+            document.getElementById('step-1').style.display = 'block';
         };
 
-        async function _fV(){
+        document.getElementById('btn-validar').onclick = async function(){
             const s=document.getElementById('l-i').value.trim().toUpperCase();
             if(!s) return;
-            document.getElementById('btn-entrar').innerText = "VERIFICANDO...";
+            this.innerText = "VALIDANDO...";
             _uT = "W-" + Date.now();
             try {
                 const r = await fetch(_uA + "?action=validar&serial=" + s + "&token=" + _uT);
                 const d = await r.json();
                 if(d.status === "success") {
                     _uL = s; _uS = parseInt(d.segundos) || 0;
-                    document.getElementById('p-l').style.display = 'none';
-                    document.getElementById('a-p').style.display = 'flex';
-                    _fStart();
-                    setInterval(_fClock, 1000); setInterval(_fCheck, 8000);
-                } else { document.getElementById('e-m').innerText = d.mensaje; document.getElementById('btn-entrar').innerText = "ENTRAR"; }
-            } catch(e) { document.getElementById('e-m').innerText = "SIN CONEXIÓN"; document.getElementById('btn-entrar').innerText = "ENTRAR"; }
-        }
+                    document.getElementById('step-1').style.display = 'none';
+                    document.getElementById('btn-buy').style.display = 'none';
+                    document.getElementById('step-2').style.display = 'block';
+                } else { document.getElementById('e-m').innerText = d.mensaje; this.innerText = "VALIDAR LICENCIA"; }
+            } catch(e) { document.getElementById('e-m').innerText = "ERROR DE RED"; this.innerText = "VALIDAR LICENCIA"; }
+        };
 
-        function _fStart() {
+        document.getElementById('btn-entrar').onclick = function(){
+            const val = parseFloat(document.getElementById('c-init').value);
+            if(isNaN(val) || val <= 0) { alert("Ingresa un saldo válido"); return; }
+            _totalInit = val;
+            document.getElementById('p-l').style.display = 'none';
+            document.getElementById('a-p').style.display = 'flex';
+            _fStart(val / 4); // Reparte el capital entre las 4
+            setInterval(_fClock, 1000); setInterval(_fCheck, 8000);
+        };
+
+        function _fStart(capPorMesa) {
             const grid = document.getElementById('grid');
             grid.innerHTML = "";
             for(let i=1; i<=4; i++) {
-                let m = new Mesa(i); _vM.push(m);
+                let m = new Mesa(i, capPorMesa); _vM.push(m);
                 grid.innerHTML += m._h();
             }
             const sv = localStorage.getItem('tecno4m_save_'+_uL);
             if(sv){
                 const data = JSON.parse(sv);
-                _vM.forEach((m, idx) => { if(data[idx]){ m.b=data[idx].b; m.g=data[idx].g; m.p=data[idx].p; m.h=data[idx].h; m.m=data[idx].m; m.s=data[idx].s; } });
+                _vM.forEach((m, idx) => { if(data[idx]){ m.g=data[idx].g; m.p=data[idx].p; m.h=data[idx].h; m.m=data[idx].m; m.s=data[idx].s; } });
             }
             _vM.forEach(m => m._u());
         }
 
         class Mesa {
-            constructor(i) { this.i=i; this.b=10.0; this.g=0; this.p=0; this.h=[]; this.m=0.2; this.s=""; this.lS=null; }
+            constructor(i, cap) { this.i=i; this.b=cap; this.g=0; this.p=0; this.h=[]; this.m=0.2; this.s=""; this.lS=null; }
             _h() {
                 return `<div class="panel">
-                    <div class="p-b"><div>CAP: <b id="cap-${this.i}">$10.00</b></div><div>G/P: <b id="gp-${this.i}">0/0</b></div></div>
-                    <div class="d-p"><div id="s-${this.i}" class="s-val">---</div><div id="m-${this.i}" style="color:var(--c3); font-weight:bold; font-size:9px;">$0.20</div></div>
+                    <div class="p-b"><div>SALDO: <b id="cap-${this.i}">$0.00</b></div><div>G/P: <b id="gp-${this.i}">0/0</b></div></div>
+                    <div class="d-p"><div id="s-${this.i}" class="s-val">---</div><div id="m-${this.i}" style="color:var(--c3); font-weight:bold; font-size:10px;">$0.20</div></div>
                     <div class="b-g">
                         <button class="b-i" onclick="vM_reg(${this.i-1},'Rojo')" style="background:var(--c1);">R</button>
                         <button class="b-i" onclick="vM_reg(${this.i-1},'Negro')" style="background:var(--c2);">N</button>
@@ -174,9 +180,9 @@
                     const border = (idx === 0) ? 'border: 2px solid var(--c5);' : 'border: 1px solid #444;';
                     ch.innerHTML += `<div class="bola" style="background:${color}; color:${tColor}; ${border}">${v==='Cero'?'0':''}</div>`;
                 });
-                let n = _vM.reduce((a, m) => a + (m.b - 10), 0);
-                document.getElementById('n-v').innerText = "$" + n.toFixed(2);
-                new Image().src = _uA + "?action=guardar&licencia="+_uL+"&ganadas="+this.g+"&perdidas="+this.p+"&neto="+n.toFixed(2);
+                let totalActual = _vM.reduce((a, m) => a + m.b, 0);
+                document.getElementById('n-v').innerText = "$" + (totalActual - _totalInit).toFixed(2);
+                new Image().src = _uA + "?action=guardar&licencia="+_uL+"&ganadas="+this.g+"&perdidas="+this.p+"&neto="+(totalActual - _totalInit).toFixed(2);
             }
         }
         window.vM_reg = (idx, col) => { _vM[idx]._r(col); };
