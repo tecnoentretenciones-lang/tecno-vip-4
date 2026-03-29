@@ -62,7 +62,7 @@
         }
         
         .manual-box { 
-            text-align: left; font-size: 15px; background: rgba(0,0,0,0.6); padding: 15px; 
+            text-align: left; font-size: 14px; background: rgba(0,0,0,0.6); padding: 15px; 
             border-radius: 15px; border: 1px solid #444; margin-bottom: 20px; 
             height: auto; color: #eee; line-height: 1.5;
         }
@@ -107,7 +107,6 @@
             font-weight: bold; color: white; cursor: pointer; 
         }
         
-        /* CAJA DE BOLITAS REDISEÑADA PARA 28 COLORES */
         .c-c { 
             background: #000; border: 1px solid #222; border-radius: 12px; padding: 10px; 
             display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 6px;
@@ -148,6 +147,12 @@
         @keyframes flotarNube {
             0%, 100% { transform: translateY(0px); }
             50% { transform: translateY(-12px); }
+        }
+        
+        /* ALARMA TRAMPA CUANDO ESTÁ ACTIVO */
+        @keyframes parpadeoTrampa {
+            0% { box-shadow: 0 0 5px #f1c40f; }
+            100% { box-shadow: 0 0 15px #e67e22, inset 0 0 10px #e67e22; }
         }
 
         .btn-nube {
@@ -198,7 +203,7 @@
             <div id="m-box" class="manual-box">
                 <h3 style="color: var(--c5); margin-bottom: 8px; font-size: 18px;">📜 REGLAS DE SEGURIDAD</h3>
                 1. <b>Base:</b> Iniciar SIEMPRE con <b>$0.20</b>.<br><br>
-                2. <b>Nexus Learning:</b> Usa el botón de Reportar Trampa para alimentar la base de datos del sistema.<br><br>
+                2. <b>Reportar Trampa:</b> Si notas una secuencia que te hace perder 7 veces seguidas, el botón <b>⚠️ TRAMPA</b> se encenderá. Púlsalo para que el sistema la registre y aprenda.<br><br>
                 3. <b>Disciplina:</b> Siga la Martingala. No suba montos por impulso.<br><br>
                 <span style="color: #ff4757;">4. <b>Responsabilidad:</b> No nos hacemos responsables por pérdidas de capital o mal uso. Úselo bajo su propio riesgo.</span>
             </div>
@@ -274,7 +279,9 @@
             
             <div style="display: flex; gap: 6px; margin-top: 5px;">
                 <button style="background:transparent; color:#555; border:1px solid #222; padding:8px 5px; border-radius:10px; font-size:10px; cursor:pointer; flex: 1; font-weight: bold;" id="btn-undo">CORREGIR</button>
-                <button style="background:transparent; color:#f1c40f; border:1px solid #f1c40f; padding:8px 5px; border-radius:10px; font-size:10px; cursor:pointer; flex: 1.2; font-weight: bold;" id="btn-trampa">⚠️ TRAMPA</button>
+                
+                <button style="background:transparent; color:#f1c40f; border:1px solid #f1c40f; padding:8px 5px; border-radius:10px; font-size:10px; cursor:pointer; flex: 1.2; font-weight: bold; opacity:0.3; pointer-events:none; transition:0.3s;" id="btn-trampa">⚠️ TRAMPA</button>
+                
                 <button style="background:transparent; color:#e74c3c; border:1px solid #e74c3c; padding:8px 5px; border-radius:10px; font-size:10px; cursor:pointer; flex: 1; font-weight: bold;" id="btn-reset">REINICIAR</button>
             </div>
         </div>
@@ -404,12 +411,10 @@
             _calc(); _save(); _fUpd();
         }
 
-        // ---------- MOTOR MATEMÁTICO PURO ----------
         function _calc() {
             if(_h.length === 0) return;
             let u=_h[0], p=_h[1]||"", a=_h[2]||"", t=_h[3]||"";
 
-            // 1. Vacuna Anti-"Beso de la Muerte" (El Cero Verde)
             if (u === 'Cero') {
                 if (p === 'Rojo') _s = 'ROJO'; 
                 else if (p === 'Negro') _s = 'NEGRO';
@@ -417,7 +422,6 @@
                 return; 
             }
             
-            // 2. Trampas 3x1 y 1x3 (El falso quiebre)
             if (u === 'Rojo' && p === 'Negro' && a === 'Negro' && t === 'Negro') {
                 _s = "NEGRO"; return; 
             }
@@ -425,7 +429,6 @@
                 _s = "ROJO"; return; 
             }
 
-            // 3. Lógica Original Pura
             let racha=1; 
             for(let i=0; i<_h.length-1; i++){ 
                 if(_h[i]===_h[i+1]) racha++; 
@@ -446,17 +449,14 @@
             }
         }
 
-        // --- BOTÓN PARA REPORTAR LA TRAMPA ---
+        // --- BOTÓN DE TRAMPA (ENVÍO) ---
         document.getElementById('btn-trampa').onclick = function() {
-            if(_h.length < 5) {
-                alert("Debes jugar al menos 5 colores para poder reportar una trampa.");
-                return;
-            }
-            if(confirm("¿Deseas enviar esta secuencia de colores a la Base de Datos para enseñarle al sistema?")) {
+            if(confirm("¿Deseas enviar esta secuencia asesina a la Base de Datos?")) {
                 const patron = _h.slice(0,28).join("-");
-                // Envia el ADN de la jugada a Google Sheets simulando un "reporte_fallo" pero etiquetado manual
                 new Image().src = _uA + "?action=reportar_fallo&licencia="+_uL+"&patron="+patron+"&salio=TRAMPA_MANUAL";
-                alert("¡Secuencia enviada a la Base de Datos! 🧠 El sistema aprenderá de esto.");
+                alert("¡Secuencia enviada a la Base de Datos! 🧠 El sistema la estudiará.");
+                // Opcional: Reiniciar la mesa después de reportar para evitar que siga perdiendo
+                _nP = 0; _h = []; _m = 0.2; _s = ""; _lS = null; _save(); _fUpd();
             }
         };
 
@@ -471,7 +471,6 @@
             document.getElementById('n-p').innerText = "$" + _nP.toFixed(2); 
             document.getElementById('n-g').innerText = "$" + _nG.toFixed(2); 
             
-            // VISUALIZADOR DE 28 COLORES (4 FILAS DE 7)
             const ch = document.getElementById('c-h'); ch.innerHTML = "";
             _h.slice(0,28).forEach((v, idx) => {
                 const color = (v === 'Rojo') ? 'red' : (v === 'Negro' ? '#fff' : 'green');
@@ -480,7 +479,20 @@
                 ch.innerHTML += `<div class="bola" style="background:${color}; color:${tColor}; ${border}">${v==='Cero'?'0':''}</div>`;
             });
 
-            // DISPARADOR NUBE VOLADORA
+            // LÓGICA INTELIGENTE DEL BOTÓN TRAMPA (A las 7 perdidas, _m llega a 25.60)
+            let btnTrampa = document.getElementById('btn-trampa');
+            if (_m >= 25.60) {
+                // Lleva 7 pérdidas seguidas: ¡Despierta la alarma!
+                btnTrampa.style.opacity = "1";
+                btnTrampa.style.pointerEvents = "auto";
+                btnTrampa.style.animation = "parpadeoTrampa 1s infinite alternate";
+            } else {
+                // Va ganando o la racha es pequeña: Botón dormido y bloqueado
+                btnTrampa.style.opacity = "0.3";
+                btnTrampa.style.pointerEvents = "none";
+                btnTrampa.style.animation = "none";
+            }
+
             if (_cI > 0 && _nP >= (_cI * _aT)) {
                 document.getElementById('text-alerta-porc').innerText = Math.round(_aT * 100) + "%";
                 document.getElementById('alerta-meta').style.display = 'flex';
