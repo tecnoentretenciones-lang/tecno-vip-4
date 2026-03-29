@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>TECNOENTRETE VIP v50.6</title>
+    <title>TECNOENTRETE VIP v50.4</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         :root { --c1: #e74c3c; --c2: #2c3e50; --c3: #27ae60; --c4: #f1c40f; --c5: #00e5ff; --c8: #111; }
@@ -16,18 +16,24 @@
             background-size: cover;
         }
         body::before { content: ""; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: -1; }
+        
         body { display: flex; flex-direction: column; align-items: center; justify-content: flex-start; }
 
         #p-l, #app-principal { width: 100%; height: 100dvh; max-width: 500px; display: flex; flex-direction: column; padding: 15px; }
 
+        /* Pantalla Inicio */
         #p-l { position: fixed; top: 0; background: rgba(0,0,0,0.9); z-index: 9999; align-items: center; justify-content: center; }
         .c-l { background: rgba(20, 20, 20, 0.95); border: 2px solid var(--c5); border-radius: 25px; padding: 25px; width: 100%; text-align: center; }
         
-        .legal-box { background: rgba(231, 76, 60, 0.2); border: 1px solid var(--c1); padding: 10px; border-radius: 12px; margin-bottom: 15px; font-size: 11px; color: #ff8888; font-weight: bold; }
+        .legal-box { background: rgba(231, 76, 60, 0.2); border: 1px solid var(--c1); padding: 12px; border-radius: 12px; margin-bottom: 15px; font-size: 12px; color: #ff8888; font-weight: bold; }
+        .manual-box { text-align: left; font-size: 13px; background: rgba(0,0,0,0.5); padding: 15px; border-radius: 15px; border: 1px solid #444; margin-bottom: 15px; color: #eee; }
         .i-s { width: 100%; background: #000; border: 2px solid #555; color: var(--c4); padding: 15px; border-radius: 12px; font-size: 22px; text-align: center; margin-bottom: 15px; outline: none; font-weight: bold; }
         .b-a { background: var(--c5); color: #000; border: none; padding: 18px; border-radius: 12px; font-weight: 900; width: 100%; cursor: pointer; text-transform: uppercase; font-size: 16px; }
 
-        .tmr-big { background:#000; border:2.5px solid var(--c5); border-radius:15px; padding:12px; text-align:center; font-size: 32px; color: var(--c5); font-weight: 900; margin-bottom:10px; text-shadow: 0 0 10px var(--c5); }
+        /* App Principal */
+        #app-principal { display: none; justify-content: flex-start; }
+        .tmr-big { background:#000; border:2px solid var(--c5); border-radius:15px; padding:15px; text-align:center; font-size: 28px; color: var(--c5); font-weight: 900; margin-bottom:10px; }
+        
         .ganancia-box { background: #000; border: 1px solid #333; border-radius: 15px; padding: 12px; display: flex; justify-content: space-around; margin-bottom: 10px; }
         .panel { background: var(--c8); border: 1px solid #333; border-radius: 15px; padding: 15px; display: flex; flex-direction: column; gap: 10px; flex-grow: 1; justify-content: space-around; }
         
@@ -42,27 +48,27 @@
 
     <div id="p-l">
         <div class="c-l">
-            <h1 style="margin: 0 0 5px 0; font-size: 24px;">TECNOENTRETE VIP</h1>
-            <p style="font-size: 14px; color: var(--c4); font-weight: bold; margin-bottom: 15px;">SOFTWARE PARA GANARLE A LA RULETA</p>
+            <h1 style="margin: 0 0 5px 0; font-size: 24px; color:white;">TECNOENTRETE VIP</h1>
+            <p style="font-size: 14px; color: var(--c4); font-weight: bold; margin-bottom: 15px;">PARA GANARLE A LA RULETA</p>
             
-            <div class="legal-box">⚠️ AVISO: No nos hacemos responsables por pérdidas de capital. El uso es bajo su propio riesgo.</div>
+            <div class="legal-box">⚠️ AVISO: No nos hacemos responsables por pérdidas de capital. El uso es responsabilidad exclusiva del usuario.</div>
 
-            <div style="text-align:left; font-size:12px; background:rgba(0,0,0,0.5); padding:12px; border-radius:15px; margin-bottom:15px; color:#eee;">
-                - Iniciar siempre con monto base <b>$0.20</b>.<br>
+            <div id="m-box" class="manual-box">
+                - Iniciar siempre con <b>$0.20</b>.<br>
                 - Capital recomendado: <b>$40 USD</b>.<br>
-                - Use <b>⚠️ TRAMPA</b> para reportar robos y blindar el sistema.
+                - Reporte el botón <b>⚠️ TRAMPA</b> tras 7 pérdidas.
             </div>
             
             <div id="e-m" style="color: #ff4757; font-size: 13px; margin-bottom: 10px; font-weight: bold;"></div>
             <button id="btn-acepto" class="b-a">ACEPTO Y COMIENZO</button>
 
             <div id="step-1" style="display:none">
-                <input type="text" id="l-i" class="i-s" placeholder="INGRESE LICENCIA" autocomplete="off">
-                <button class="b-a" id="btn-validar">VALIDAR LICENCIA</button>
+                <input type="text" id="l-i" class="i-s" placeholder="LICENCIA" autocomplete="off">
+                <button class="b-a" id="btn-validar">VALIDAR</button>
             </div>
 
             <div id="step-2" style="display:none">
-                <input type="number" id="c-init" class="i-s" placeholder="SALDO EN MESA" step="0.01">
+                <input type="number" id="c-init" class="i-s" placeholder="MONTO EN MESA" step="0.01">
                 <button class="b-a" id="btn-entrar-nuevo">ENTRAR A JUGAR</button>
             </div>
 
@@ -103,9 +109,6 @@
 
     <script>
     (function(){
-        // Bloqueo de Zoom
-        document.addEventListener('touchstart', (e) => { if(e.touches.length > 1) e.preventDefault(); }, {passive: false});
-
         let _ba=0, _cI=0, _nP=0, _nG=0, _g=0, _p=0, _h=[], _m=0.2, _s="", _uL="", _uT="", _uS=0, _lS=null, _saveTimer=null;
         const _uA = "https://script.google.com/macros/s/AKfycbzZnxMcWUM7wUQqEBsuaUHfQJeF4g-auZG7s5jrGFONOx3yyAOYgRRvDW0d1QewuC2pfg/exec";
 
@@ -113,17 +116,17 @@
 
         document.getElementById('btn-validar').onclick = async function(){
             const s=document.getElementById('l-i').value.trim().toUpperCase(); if(!s) return;
-            this.innerText="ESPERE..."; _uT="W-"+Date.now();
+            this.innerText="VALIDANDO..."; _uT="W-"+Date.now();
             try {
-                const r = await fetch(_uA+"?action=validar&serial="+s+"&token="+_uT);
-                const d = await r.json();
+                const r=await fetch(_uA+"?action=validar&serial="+s+"&token="+_uT);
+                const d=await r.json();
                 if(d.status==="success"){
                     _uL=s; _uS=parseInt(d.segundos);
-                    if(d.estado_nube) { const x = JSON.parse(d.estado_nube); _nG = x.nG || 0; }
                     document.getElementById('step-1').style.display='none';
                     document.getElementById('step-2').style.display='block';
-                } else { document.getElementById('e-m').innerText=d.mensaje; this.innerText="VALIDAR LICENCIA"; }
-            } catch(e){ document.getElementById('e-m').innerText="ERROR DE RED"; this.innerText="VALIDAR LICENCIA"; }
+                    if(d.estado_nube) { const x = JSON.parse(d.estado_nube); _nG = x.nG || 0; }
+                } else { document.getElementById('e-m').innerText=d.mensaje; this.innerText="VALIDAR"; }
+            } catch(e){ document.getElementById('e-m').innerText="ERROR DE RED"; this.innerText="VALIDAR"; }
         };
 
         document.getElementById('btn-entrar-nuevo').onclick = function(){
@@ -131,7 +134,7 @@
             _ba=v; _cI=v; _nP=0; _h=[]; _m=0.2; _s=""; _arrancar();
         };
 
-        function _arrancar(){ document.getElementById('p-l').style.display='none'; document.getElementById('app-principal').style.display='flex'; setInterval(_fClock, 1000); setInterval(_fCheck, 20000); _fUpd(); }
+        function _arrancar(){ document.getElementById('p-l').style.display='none'; document.getElementById('app-principal').style.display='flex'; setInterval(_fClock, 1000); setInterval(_fCheck, 15000); _fUpd(); }
 
         function _fR(c){
             _lS = JSON.parse(JSON.stringify({ba:_ba, nP:_nP, nG:_nG, g:_g, p:_p, h:_h, m:_m, s:_s}));
@@ -169,12 +172,11 @@
             });
             let bt=document.getElementById('btn-trampa');
             if(_m>=25.6){ bt.style.opacity="1"; bt.style.pointerEvents="auto"; } else { bt.style.opacity="0.3"; bt.style.pointerEvents="none"; }
-            
             clearTimeout(_saveTimer);
             _saveTimer = setTimeout(() => {
                 const url = _uA+"?action=guardar&licencia="+_uL+"&ganadas="+_g+"&perdidas="+_p+"&neto="+_nG.toFixed(2)+"&estado="+encodeURIComponent(JSON.stringify({ba:_ba,nP:_nP,nG:_nG,cI:_cI,g:_g,p:_p,h:_h.slice(0,15),m:_m,s:_s}));
-                new Image().src = url; // Fire and forget para máxima velocidad
-            }, 1000);
+                new Image().src = url;
+            }, 2000);
         }
 
         function _fClock(){ if(_uS > 0){ _uS--; let d=Math.floor(_uS/86400), h=Math.floor((_uS%86400)/3600), m=Math.floor((_uS%3600)/60), s=_uS%60; document.getElementById('tmr').innerText=d+"d "+h+"h "+m+"m "+s+"s"; } else location.reload(); }
