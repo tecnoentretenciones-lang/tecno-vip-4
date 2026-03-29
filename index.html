@@ -1,9 +1,10 @@
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>TECNOENTRETE VIP v48.6</title>
+    <title>TECNOENTRETE VIP v48.7</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         :root { --c1: #e74c3c; --c2: #2c3e50; --c3: #27ae60; --c4: #f1c40f; --c5: #00e5ff; --c6: #050505; --c8: #111; }
@@ -37,11 +38,16 @@
             <p style="font-size: 14px; color: #ccc; margin-bottom: 20px;">Asistente de Análisis de Patrones en Tiempo Real.</p>
             
             <div id="m-box" class="manual-box">
-                <h3 style="color: var(--c5); margin-top: 0;">📜 REGLAS</h3>
-                1. Base: <b>$0.20</b>.<br>
-                2. Trampa: El botón se activa tras 7 pérdidas para reportar la secuencia.<br>
-                3. Disciplina: Siga las indicaciones.
+                <h3 style="color: var(--c5); margin-top: 0;">📜 REGLAS DE SEGURIDAD</h3>
+                1. <b>Base:</b> Iniciar SIEMPRE con <b>$0.20</b>.<br><br>
+                2. <b>Nexus Learning:</b> El sistema reporta patrones difíciles automáticamente.<br><br>
+                3. <b>Disciplina:</b> Siga la Martingala. No suba montos por impulso.<br><br>
+                <span style="color: #ff4757;">4. <b>Responsabilidad:</b> No nos hacemos responsables por pérdidas de capital o mal uso. Úselo bajo su propio riesgo.</span>
             </div>
+
+            <p style="color: #ffaa00; font-weight: bold; font-size: 15px; text-align: center; margin-bottom: 15px; background: rgba(255, 170, 0, 0.1); padding: 10px; border-radius: 8px; border: 1px solid #ffaa00;">
+                ⚠️ Recuerda: El capital mínimo recomendado es $40 USD.
+            </p>
             
             <div id="e-m" style="color: #ff4757; font-size: 14px; margin-bottom: 10px; font-weight: bold; min-height: 18px;"></div>
             <button id="btn-acepto" class="b-a">ACEPTO LAS REGLAS</button>
@@ -52,10 +58,10 @@
             </div>
 
             <div id="step-2" style="display:none">
-                <input type="number" id="c-init" class="i-s" placeholder="CAPITAL INICIAL" step="0.01">
+                <input type="number" id="c-init" class="i-s" placeholder="¿CON CUÁNTO DINERO ENTRAS?" step="0.01">
                 <button class="b-a" id="btn-entrar-nuevo">ENTRAR A LA SALA</button>
                 <div id="pantalla-sesion-guardada" style="display:none; margin-top:15px;">
-                    <button class="b-a" id="btn-continuar-sesion" style="background:#27ae60; color:white; margin-bottom:10px;">CONTINUAR</button>
+                    <button class="b-a" id="btn-continuar-sesion" style="background:#27ae60; color:white; margin-bottom:10px;">CONTINUAR JUEGO</button>
                     <button class="b-a" id="btn-borrar-sesion" style="background:transparent; color:#e74c3c; border:1px solid #e74c3c; font-size:12px;">BORRAR SESIÓN</button>
                 </div>
             </div>
@@ -98,7 +104,7 @@
 
     <script>
     (function(){
-        let _ba=0, _cI=0, _nP=0, _nG=0, _g=0, _p=0, _h=[], _m=0.2, _s="", _uL="", _uT="", _uS=0, _lS=null, _saveTimer=null, _aT=0.20;
+        let _ba=0, _cI=0, _nP=0, _nG=0, _g=0, _p=0, _h=[], _m=0.2, _s="", _uL="", _uT="", _uS=0, _lS=null, _saveTimer=null;
         const _uA = "https://script.google.com/macros/s/AKfycbzZnxMcWUM7wUQqEBsuaUHfQJeF4g-auZG7s5jrGFONOx3yyAOYgRRvDW0d1QewuC2pfg/exec";
 
         document.getElementById('btn-acepto').onclick = function(){ this.style.display='none'; document.getElementById('m-box').style.display='none'; document.getElementById('step-1').style.display='block'; };
@@ -115,17 +121,21 @@
                     if(d.estado_nube) localStorage.setItem('tecno_save_'+_uL, d.estado_nube);
                     if(localStorage.getItem('tecno_save_'+_uL)) document.getElementById('pantalla-sesion-guardada').style.display='block';
                 } else { document.getElementById('e-m').innerText=d.mensaje; this.innerText="VALIDAR"; }
-            } catch(e){ document.getElementById('e-m').innerText="ERROR DE CONEXIÓN"; this.innerText="VALIDAR"; }
+            } catch(e){ document.getElementById('e-m').innerText="ERROR DE RED"; this.innerText="VALIDAR"; }
         };
 
         document.getElementById('btn-entrar-nuevo').onclick = function(){
             const v=parseFloat(document.getElementById('c-init').value); if(isNaN(v)||v<=0) return;
-            _ba=v; _cI=v; _arrancar();
+            _ba=v; _cI=v; _nP=0; _nG=0; _g=0; _p=0; _h=[]; _m=0.2; _s=""; _arrancar();
         };
 
         document.getElementById('btn-continuar-sesion').onclick = function(){
-            const x=JSON.parse(localStorage.getItem('tecno_save_'+_uL));
-            _ba=x.ba; _nP=x.nP; _nG=x.nG; _cI=x.cI; _g=x.g; _p=x.p; _h=x.h; _m=x.m; _s=x.s; _arrancar();
+            const sv = localStorage.getItem('tecno_save_'+_uL);
+            if(sv){
+                const x=JSON.parse(sv);
+                _ba=x.ba; _nP=x.nP; _nG=x.nG; _cI=x.cI; _g=x.g; _p=x.p; _h=x.h; _m=x.m; _s=x.s;
+            }
+            _arrancar();
         };
 
         function _arrancar(){
@@ -148,7 +158,7 @@
             let u=_h[0], p=_h[1]||"", a=_h[2]||"", t=_h[3]||"";
             if(u==='Cero'){ _s=(p==='Rojo')?'ROJO':(p==='Negro'?'NEGRO':''); return; }
             
-            // VACUNAS 3x3 Y 4x4
+            // VACUNAS ACTUALIZADAS (3x3, 4x4, 3x1)
             if(u==='Rojo'&&p==='Rojo'&&a==='Rojo'&&t==='Rojo'&&_h[4]==='Negro'&&_h[5]==='Negro'){_s="NEGRO";return;}
             if(u==='Negro'&&p==='Negro'&&a==='Negro'&&t==='Negro'&&_h[4]==='Rojo'&&_h[5]==='Rojo'){_s="ROJO";return;}
             
@@ -160,7 +170,7 @@
 
         document.getElementById('btn-trampa').onclick = function(){
             new Image().src = _uA+"?action=reportar_fallo&licencia="+_uL+"&patron="+_h.slice(0,28).join("-");
-            alert("Enviado."); _nP=0; _h=[]; _m=0.2; _fUpd();
+            alert("¡Secuencia enviada! El sistema aprenderá de esta trampa."); _nP=0; _h=[]; _m=0.2; _fUpd();
         };
 
         function _fUpd(){
@@ -189,8 +199,8 @@
         document.getElementById('btn-R').onclick=()=>_fR('Rojo');
         document.getElementById('btn-N').onclick=()=>_fR('Negro');
         document.getElementById('btn-0').onclick=()=>_fR('Cero');
-        document.getElementById('btn-undo').onclick=()=>{ if(_lS){ Object.assign(window, _lS); _fUpd(); } };
-        document.getElementById('btn-reset').onclick=()=>{ if(confirm("Reiniciar?")){ _nP=0; _h=[]; _m=0.2; _fUpd(); } };
+        document.getElementById('btn-undo').onclick=()=>{ if(_lS){ _ba=_lS.ba;_nP=_lS.nP;_nG=_lS.nG;_g=_lS.g;_p=_lS.p;_h=_lS.h;_m=_lS.m;_s=_lS.s;_fUpd(); } };
+        document.getElementById('btn-reset').onclick=()=>{ if(confirm("¿Reiniciar mesa?")){ _nP=0; _h=[]; _m=0.2; _fUpd(); } };
     })();
     </script>
 </body>
