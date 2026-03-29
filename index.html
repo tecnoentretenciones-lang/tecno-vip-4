@@ -1,10 +1,9 @@
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>TECNOENTRETE VIP v48.7</title>
+    <title>TECNOENTRETE VIP v48.8</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         :root { --c1: #e74c3c; --c2: #2c3e50; --c3: #27ae60; --c4: #f1c40f; --c5: #00e5ff; --c6: #050505; --c8: #111; }
@@ -13,20 +12,31 @@
         html, body { min-height: 100vh; overflow-x: hidden; overflow-y: auto; margin: 0; color: white; font-family: 'Segoe UI', sans-serif; background: url('https://raw.githubusercontent.com/tecnoentretenciones-lang/tecno-vip-1/main/image_1209a3.jpg') no-repeat center center fixed; background-size: cover; }
         body::before { content: ""; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); z-index: -1; }
         body { display: flex; flex-direction: column; align-items: center; padding: 10px; }
-        #p-l { position: fixed; top: 0; left: 0; width: 100%; height: 100%; display: flex; justify-content: center; align-items: flex-start; z-index: 9999; padding: 30px 15px; overflow-y: auto; }
-        .c-l { background: rgba(17, 17, 17, 0.98); border: 2px solid var(--c5); border-radius: 25px; padding: 35px 25px; width: 100%; max-width: 450px; text-align: center; backdrop-filter: blur(15px); }
-        .manual-box { text-align: left; font-size: 14px; background: rgba(0,0,0,0.6); padding: 15px; border-radius: 15px; border: 1px solid #444; margin-bottom: 20px; color: #eee; line-height: 1.5; }
+        
+        /* Contenedor principal corregido para PC y Móvil */
+        #p-l, #app-principal { width: 100%; max-width: 500px; margin: 0 auto; }
+
+        #p-l { position: fixed; top: 0; left: 0; right: 0; bottom: 0; display: flex; justify-content: center; align-items: flex-start; z-index: 9999; padding: 20px 15px; overflow-y: auto; }
+        .c-l { background: rgba(17, 17, 17, 0.98); border: 2px solid var(--c5); border-radius: 25px; padding: 30px 20px; width: 100%; text-align: center; backdrop-filter: blur(15px); box-shadow: 0 0 40px rgba(0,229,255,0.2); }
+        
+        .manual-box { text-align: left; font-size: 13px; background: rgba(0,0,0,0.6); padding: 15px; border-radius: 15px; border: 1px solid #444; margin-bottom: 20px; color: #eee; line-height: 1.4; }
         .i-s { width: 100%; background: rgba(0,0,0,0.8); border: 2px solid #555; color: var(--c4); padding: 15px; border-radius: 12px; font-size: 22px; text-align: center; margin-bottom: 15px; outline: none; font-weight: bold; }
         .b-a { background: var(--c5); color: #000; border: none; padding: 18px; border-radius: 12px; font-weight: 900; width: 100%; cursor: pointer; text-transform: uppercase; font-size: 18px; }
-        #app-principal { display: none; width: 100%; max-width: 480px; flex-direction: column; padding: 10px; }
-        .ganancia-box { background: #000; border: 1px solid #333; border-radius: 15px; padding: 10px; text-align: center; margin-bottom: 12px; display: flex; justify-content: space-around; align-items: center; }
-        .panel { background: var(--c8); border: 1px solid #333; border-radius: 15px; padding: 18px; display: flex; flex-direction: column; gap: 15px; }
+        
+        #app-principal { display: none; flex-direction: column; gap: 10px; min-height: 100vh; }
+        
+        .ganancia-box { background: #000; border: 1px solid #333; border-radius: 15px; padding: 12px; text-align: center; display: flex; justify-content: space-around; align-items: center; }
+        .panel { background: var(--c8); border: 1px solid #333; border-radius: 15px; padding: 20px; display: flex; flex-direction: column; gap: 15px; }
+        
         .b-i { flex: 1; height: 75px; border: none; border-radius: 15px; font-size: 32px; font-weight: bold; color: white; cursor: pointer; }
-        .c-c { background: #000; border: 1px solid #222; border-radius: 12px; padding: 10px; display: flex; flex-wrap: wrap; justify-content: center; gap: 6px; min-height: 100px; }
+        .c-c { background: #000; border: 1px solid #222; border-radius: 12px; padding: 10px; display: flex; flex-wrap: wrap; justify-content: center; gap: 6px; min-height: 90px; }
         .bola { width: 26px; height: 26px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-size: 12px; font-weight: bold; flex-shrink: 0; }
-        .ruleta-logo { width: 70px; height: 70px; margin-bottom: 10px; animation: rotarRuleta 4s linear infinite; filter: drop-shadow(0 0 10px var(--c5)); }
+        
+        .ruleta-logo { width: 70px; height: 70px; margin-bottom: 10px; animation: rotarRuleta 5s linear infinite; filter: drop-shadow(0 0 10px var(--c5)); }
         @keyframes rotarRuleta { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
         @keyframes parpadeoTrampa { 0% { box-shadow: 0 0 5px #f1c40f; } 100% { box-shadow: 0 0 15px #e67e22; } }
+        
+        .tmr-box { background:#111; border:1px solid #333; border-radius:10px; padding:8px; text-align:center; font-size: 12px; color: #888; margin-bottom:5px; }
     </style>
 </head>
 <body>
@@ -34,56 +44,63 @@
     <div id="p-l">
         <div class="c-l">
             <img src="https://cdn-icons-png.flaticon.com/512/1055/1055673.png" class="ruleta-logo">
-            <h1 style="margin: 0 0 10px 0; font-size: 28px;">TECNOENTRETE VIP</h1>
-            <p style="font-size: 14px; color: #ccc; margin-bottom: 20px;">Asistente de Análisis de Patrones en Tiempo Real.</p>
+            <h1 style="margin: 0 0 5px 0; font-size: 26px;">TECNOENTRETE VIP</h1>
+            <p style="font-size: 15px; color: var(--c4); font-weight: bold; margin-bottom: 15px;">SOFTWARE PARA GANARLE A LA RULETA</p>
             
-            <div id="m-box" class="manual-box">
-                <h3 style="color: var(--c5); margin-top: 0;">📜 REGLAS DE SEGURIDAD</h3>
-                1. <b>Base:</b> Iniciar SIEMPRE con <b>$0.20</b>.<br><br>
-                2. <b>Nexus Learning:</b> El sistema reporta patrones difíciles automáticamente.<br><br>
-                3. <b>Disciplina:</b> Siga la Martingala. No suba montos por impulso.<br><br>
-                <span style="color: #ff4757;">4. <b>Responsabilidad:</b> No nos hacemos responsables por pérdidas de capital o mal uso. Úselo bajo su propio riesgo.</span>
-            </div>
-
-            <p style="color: #ffaa00; font-weight: bold; font-size: 15px; text-align: center; margin-bottom: 15px; background: rgba(255, 170, 0, 0.1); padding: 10px; border-radius: 8px; border: 1px solid #ffaa00;">
-                ⚠️ Recuerda: El capital mínimo recomendado es $40 USD.
+            <p style="font-size: 13px; color: #ccc; margin-bottom: 20px; padding: 0 10px;">
+                Analizador de algoritmos en tiempo real. Detecta patrones y neutraliza las trampas del casino.
             </p>
+
+            <div id="m-box" class="manual-box">
+                <h3 style="color: var(--c5); margin-top: 0; font-size: 16px;">📜 REGLAS OBLIGATORIAS</h3>
+                1. <b>Base:</b> Iniciar SIEMPRE con <b>$0.20</b>.<br>
+                2. <b>Reporte:</b> Si el botón TRAMPA parpadea, úselo para blindar su cuenta.<br>
+                3. <b>Capital:</b> Mínimo recomendado <b>$40 USD</b>.<br>
+                <span style="color: #ff4757;">4. <b>Aviso:</b> No nos responsabilizamos por mal uso o pérdidas. Juegue con disciplina.</span>
+            </div>
             
             <div id="e-m" style="color: #ff4757; font-size: 14px; margin-bottom: 10px; font-weight: bold; min-height: 18px;"></div>
-            <button id="btn-acepto" class="b-a">ACEPTO LAS REGLAS</button>
+            
+            <button id="btn-acepto" class="b-a">ENTIENDO Y ACEPTO</button>
 
             <div id="step-1" style="display:none">
-                <input type="text" id="l-i" class="i-s" placeholder="LICENCIA" autocomplete="off">
-                <button class="b-a" id="btn-validar">VALIDAR</button>
+                <input type="text" id="l-i" class="i-s" placeholder="INGRESE LICENCIA" autocomplete="off">
+                <button class="b-a" id="btn-validar">VALIDAR LICENCIA</button>
             </div>
 
             <div id="step-2" style="display:none">
-                <input type="number" id="c-init" class="i-s" placeholder="¿CON CUÁNTO DINERO ENTRAS?" step="0.01">
+                <p style="font-size: 14px; color: var(--c5); font-weight: bold; margin-bottom: 10px;">¿CON CUÁNTO DINERO ENTRAS?</p>
+                <input type="number" id="c-init" class="i-s" placeholder="EJ: 50.00" step="0.01">
                 <button class="b-a" id="btn-entrar-nuevo">ENTRAR A LA SALA</button>
                 <div id="pantalla-sesion-guardada" style="display:none; margin-top:15px;">
+                    <div style="background: rgba(39, 174, 96, 0.2); border: 1px solid #27ae60; padding: 10px; border-radius: 12px; margin-bottom: 10px; font-size: 12px; color: #00ff88;">SESIÓN ACTIVA ENCONTRADA</div>
                     <button class="b-a" id="btn-continuar-sesion" style="background:#27ae60; color:white; margin-bottom:10px;">CONTINUAR JUEGO</button>
-                    <button class="b-a" id="btn-borrar-sesion" style="background:transparent; color:#e74c3c; border:1px solid #e74c3c; font-size:12px;">BORRAR SESIÓN</button>
+                    <button class="b-a" id="btn-borrar-sesion" style="background:transparent; color:#e74c3c; border:1px solid #e74c3c; font-size:12px;">BORRAR Y NUEVO CAPITAL</button>
                 </div>
             </div>
         </div>
     </div>
 
     <div id="app-principal">
+        <div class="tmr-box">
+            TIEMPO DE LICENCIA: <span id="tmr" style="color:var(--c5); font-weight: bold;">--:--:--</span>
+        </div>
+
         <div class="ganancia-box">
             <div style="flex: 1; border-right: 1px solid #333;">
-                <div style="font-size: 10px; color: #888;">PARCIAL</div>
+                <div style="font-size: 10px; color: #888;">NETO PARCIAL</div>
                 <div style="font-size: 24px; font-weight: 900; color: var(--c3);" id="n-p">$0.00</div>
             </div>
             <div style="flex: 1;">
-                <div style="font-size: 10px; color: #888;">GLOBAL</div>
+                <div style="font-size: 10px; color: #888;">NETO GLOBAL</div>
                 <div style="font-size: 24px; font-weight: 900; color: var(--c5);" id="n-g">$0.00</div>
             </div>
         </div>
 
         <div class="panel">
             <div style="background: #1a1a1a; border: 1px solid #333; border-radius: 20px; padding: 25px; text-align: center;">
-                <div id="s-t" style="font-size:70px; font-weight:900;">---</div>
-                <div id="m-t" style="color:var(--c3); font-weight:900; font-size:24px;">$0.20</div>
+                <div id="s-t" style="font-size:75px; font-weight:900;">---</div>
+                <div id="m-t" style="color:var(--c3); font-weight:900; font-size:24px; margin-top:5px;">$0.20</div>
             </div>
             
             <div style="display: flex; gap: 8px;">
@@ -107,7 +124,11 @@
         let _ba=0, _cI=0, _nP=0, _nG=0, _g=0, _p=0, _h=[], _m=0.2, _s="", _uL="", _uT="", _uS=0, _lS=null, _saveTimer=null;
         const _uA = "https://script.google.com/macros/s/AKfycbzZnxMcWUM7wUQqEBsuaUHfQJeF4g-auZG7s5jrGFONOx3yyAOYgRRvDW0d1QewuC2pfg/exec";
 
-        document.getElementById('btn-acepto').onclick = function(){ this.style.display='none'; document.getElementById('m-box').style.display='none'; document.getElementById('step-1').style.display='block'; };
+        document.getElementById('btn-acepto').onclick = function(){ 
+            this.style.display='none'; 
+            document.getElementById('m-box').style.display='none'; 
+            document.getElementById('step-1').style.display='block'; 
+        };
 
         document.getElementById('btn-validar').onclick = async function(){
             const s=document.getElementById('l-i').value.trim().toUpperCase(); if(!s) return;
@@ -117,15 +138,16 @@
                 const d=await r.json();
                 if(d.status==="success"){
                     _uL=s; _uS=parseInt(d.segundos);
-                    document.getElementById('step-1').style.display='none'; document.getElementById('step-2').style.display='block';
+                    document.getElementById('step-1').style.display='none'; 
+                    document.getElementById('step-2').style.display='block';
                     if(d.estado_nube) localStorage.setItem('tecno_save_'+_uL, d.estado_nube);
                     if(localStorage.getItem('tecno_save_'+_uL)) document.getElementById('pantalla-sesion-guardada').style.display='block';
-                } else { document.getElementById('e-m').innerText=d.mensaje; this.innerText="VALIDAR"; }
-            } catch(e){ document.getElementById('e-m').innerText="ERROR DE RED"; this.innerText="VALIDAR"; }
+                } else { document.getElementById('e-m').innerText=d.mensaje; this.innerText="VALIDAR LICENCIA"; }
+            } catch(e){ document.getElementById('e-m').innerText="ERROR DE RED"; this.innerText="VALIDAR LICENCIA"; }
         };
 
         document.getElementById('btn-entrar-nuevo').onclick = function(){
-            const v=parseFloat(document.getElementById('c-init').value); if(isNaN(v)||v<=0) return;
+            const v=parseFloat(document.getElementById('c-init').value); if(isNaN(v)||v<=0){ alert("Ingrese capital"); return; }
             _ba=v; _cI=v; _nP=0; _nG=0; _g=0; _p=0; _h=[]; _m=0.2; _s=""; _arrancar();
         };
 
@@ -141,6 +163,8 @@
         function _arrancar(){
             document.getElementById('p-l').style.display='none';
             document.getElementById('app-principal').style.display='flex';
+            setInterval(_fClock, 1000); 
+            setInterval(_fCheck, 8000); // REVISIÓN DE SESIÓN ÚNICA CADA 8 SEG
             _fUpd();
         }
 
@@ -169,8 +193,10 @@
         }
 
         document.getElementById('btn-trampa').onclick = function(){
-            new Image().src = _uA+"?action=reportar_fallo&licencia="+_uL+"&patron="+_h.slice(0,28).join("-");
-            alert("¡Secuencia enviada! El sistema aprenderá de esta trampa."); _nP=0; _h=[]; _m=0.2; _fUpd();
+            if(confirm("¿Reportar secuencia?")){
+                new Image().src = _uA+"?action=reportar_fallo&licencia="+_uL+"&patron="+_h.slice(0,28).join("-");
+                alert("Enviado."); _nP=0; _h=[]; _m=0.2; _fUpd();
+            }
         };
 
         function _fUpd(){
@@ -182,11 +208,12 @@
             const ch=document.getElementById('c-h'); ch.innerHTML="";
             _h.slice(0,28).forEach((v,idx)=>{
                 const cl=(v==='Rojo')?'red':(v==='Negro'?'#fff':'green');
-                const bd=(idx===0)?'border:2px solid var(--c5);':'';
+                const bd=(idx===0)?'border:2px solid var(--c5); box-shadow:0 0 8px var(--c5);':'';
                 ch.innerHTML+=`<div class="bola" style="background:${cl}; color:${v==='Negro'?'#000':'#fff'}; ${bd}">${v==='Cero'?'0':''}</div>`;
             });
             let bt=document.getElementById('btn-trampa');
             if(_m>=25.6){ bt.style.opacity="1"; bt.style.pointerEvents="auto"; bt.style.animation="parpadeoTrampa 1s infinite alternate"; }
+            else { bt.style.opacity="0.3"; bt.style.pointerEvents="none"; bt.style.animation="none"; }
             
             clearTimeout(_saveTimer);
             _saveTimer = setTimeout(() => {
@@ -195,12 +222,27 @@
             }, 1000);
         }
 
+        function _fClock(){ 
+            if(_uS > 0){ _uS--; let d=Math.floor(_uS/86400), h=Math.floor((_uS%86400)/3600), m=Math.floor((_uS%3600)/60), s=_uS%60;
+                document.getElementById('tmr').innerText=d+"d "+h+"h "+m+"m "+s+"s";
+            } else location.reload(); 
+        }
+
+        async function _fCheck(){ 
+            try { 
+                const r=await fetch(_uA+"?action=chequear_sesion&serial="+_uL+"&token="+_uT);
+                const d=await r.json(); 
+                if(d.status==="kick") { alert("Sesión abierta en otro dispositivo."); location.reload(); }
+            } catch(e){} 
+        }
+
         function _save(){ localStorage.setItem('tecno_save_'+_uL, JSON.stringify({ba:_ba,nP:_nP,nG:_nG,cI:_cI,g:_g,p:_p,h:_h,m:_m,s:_s})); }
         document.getElementById('btn-R').onclick=()=>_fR('Rojo');
         document.getElementById('btn-N').onclick=()=>_fR('Negro');
         document.getElementById('btn-0').onclick=()=>_fR('Cero');
         document.getElementById('btn-undo').onclick=()=>{ if(_lS){ _ba=_lS.ba;_nP=_lS.nP;_nG=_lS.nG;_g=_lS.g;_p=_lS.p;_h=_lS.h;_m=_lS.m;_s=_lS.s;_fUpd(); } };
         document.getElementById('btn-reset').onclick=()=>{ if(confirm("¿Reiniciar mesa?")){ _nP=0; _h=[]; _m=0.2; _fUpd(); } };
+        document.getElementById('btn-borrar-sesion').onclick=()=>{ localStorage.removeItem('tecno_save_'+_uL); location.reload(); };
     })();
     </script>
 </body>
