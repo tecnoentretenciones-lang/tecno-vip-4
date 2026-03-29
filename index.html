@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -6,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="mobile-web-app-capable" content="yes">
-    <title>TECNOENTRETE VIP v46.0</title>
+    <title>TECNOENTRETE VIP v47.0</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         :root { 
@@ -409,7 +408,7 @@
             _calc(); _save(); _fUpd();
         }
 
-        // ---------- MOTOR MATEMÁTICO BLINDADO (v46.0) ----------
+        // ---------- MOTOR MATEMÁTICO BLINDADO (v47.0) ----------
         function _calc() {
             if(_h.length === 0) return;
             let u=_h[0], p=_h[1]||"", a=_h[2]||"", t=_h[3]||"";
@@ -422,20 +421,35 @@
                 return; 
             }
             
-            // 2. Vacuna Anti-"3x1 Mortal"
+            // 2. Vacuna Anti-"3x1 Mortal" y Bloques
             if (u === 'Rojo' && p === 'Negro' && a === 'Negro' && t === 'Negro') {
+                // Si la trampa viene de un bloque 3x3, seguir la tendencia
+                if (_h[4] === 'Rojo' && _h[5] === 'Rojo') {
+                    _s = "ROJO"; return; 
+                }
                 _s = "NEGRO"; return; 
             }
             if (u === 'Negro' && p === 'Rojo' && a === 'Rojo' && t === 'Rojo') {
+                if (_h[4] === 'Negro' && _h[5] === 'Negro') {
+                    _s = "NEGRO"; return; 
+                }
                 _s = "ROJO"; return; 
             }
 
             // 3. NUEVA VACUNA (Extraída de tu BD) - "El Péndulo Roto"
-            // Detecta la trampa N-N-R-R-R reportada en tu CSV
             if (u === 'Negro' && p === 'Negro' && a === 'Rojo' && t === 'Rojo' && _h[4] === 'Rojo') {
                 _s = "ROJO"; return; 
             }
             if (u === 'Rojo' && p === 'Rojo' && a === 'Negro' && t === 'Negro' && _h[4] === 'Negro') {
+                _s = "NEGRO"; return; 
+            }
+
+            // 4. NUEVA VACUNA (Extraída de tu BD) - "Bloques de 3 (3x3)"
+            // Anticípate al quiebre perfecto cuando salen bloques de a tres
+            if (u === 'Negro' && p === 'Negro' && a === 'Negro' && t === 'Rojo' && _h[4] === 'Rojo' && _h[5] === 'Rojo') {
+                _s = "ROJO"; return; 
+            }
+            if (u === 'Rojo' && p === 'Rojo' && a === 'Rojo' && t === 'Negro' && _h[4] === 'Negro' && _h[5] === 'Negro') {
                 _s = "NEGRO"; return; 
             }
 
@@ -489,7 +503,7 @@
                 ch.innerHTML += `<div class="bola" style="background:${color}; color:${tColor}; ${border}">${v==='Cero'?'0':''}</div>`;
             });
 
-            // LÓGICA INTELIGENTE DEL BOTÓN TRAMPA (A las 7 perdidas, _m llega a 25.60)
+            // LÓGICA INTELIGENTE DEL BOTÓN TRAMPA
             let btnTrampa = document.getElementById('btn-trampa');
             if (_m >= 25.60) {
                 btnTrampa.style.opacity = "1";
