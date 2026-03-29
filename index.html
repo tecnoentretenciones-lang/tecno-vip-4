@@ -3,11 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>TECNOENTRETE VIP v50.9</title>
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title>TECNOENTRETE VIP v51.0</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         :root { --c1: #e74c3c; --c2: #2c3e50; --c3: #27ae60; --c4: #f1c40f; --c5: #00e5ff; --c8: #111; }
-        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; touch-action: manipulation; }
+        
+        /* BLOQUEO DE ZOOM SAFARI */
+        * { 
+            box-sizing: border-box; 
+            -webkit-tap-highlight-color: transparent; 
+            touch-action: none; /* Bloquea zoom por gestos en iPhone */
+            user-select: none;
+        }
         
         html, body { 
             height: 100dvh; width: 100vw; overflow: hidden; margin: 0; color: white; 
@@ -29,7 +38,7 @@
 
         .legal-box { background: rgba(231, 76, 60, 0.2); border: 1px solid var(--c1); padding: 10px; border-radius: 12px; margin-bottom: 15px; font-size: 11px; color: #ff8888; font-weight: bold; }
         .i-s { width: 100%; background: #000; border: 2px solid #555; color: var(--c4); padding: 15px; border-radius: 12px; font-size: 22px; text-align: center; margin-bottom: 15px; outline: none; font-weight: bold; }
-        .b-a { background: var(--c5); color: #000; border: none; padding: 18px; border-radius: 12px; font-weight: 900; width: 100%; cursor: pointer; text-transform: uppercase; font-size: 16px; }
+        .b-a { background: var(--c5); color: #000; border: none; padding: 18px; border-radius: 12px; font-weight: 900; width: 100%; cursor: pointer; text-transform: uppercase; font-size: 16px; margin-bottom: 10px; }
 
         /* Pantalla Juego */
         #app-principal { display: none; justify-content: flex-start; }
@@ -55,12 +64,12 @@
             <h1 style="margin: 0 0 5px 0; font-size: 24px; color:white;">TECNOENTRETE VIP</h1>
             <p style="font-size: 14px; color: var(--c4); font-weight: bold; margin-bottom: 15px;">SOFTWARE PARA GANARLE A LA RULETA</p>
             
-            <div class="legal-box">⚠️ AVISO: No nos hacemos responsables por pérdidas de capital. El uso es responsabilidad exclusiva del usuario.</div>
+            <div class="legal-box">⚠️ AVISO: No nos hacemos responsables por pérdidas de capital. El uso es bajo su propio riesgo.</div>
 
             <div style="text-align:left; font-size:12px; background:rgba(0,0,0,0.5); padding:12px; border-radius:15px; margin-bottom:15px; color:#eee;">
                 - Iniciar siempre con monto base <b>$0.20</b>.<br>
                 - Capital recomendado: <b>$40 USD</b>.<br>
-                - Use el botón <b>⚠️ TRAMPA</b> para reportar robos y blindar el sistema.
+                - Use el botón <b>⚠️ TRAMPA</b> para blindar el sistema.
             </div>
             
             <div id="e-m" style="color: #ff4757; font-size: 13px; margin-bottom: 10px; font-weight: bold;"></div>
@@ -74,6 +83,9 @@
             <div id="step-2" style="display:none">
                 <input type="number" id="c-init" class="i-s" placeholder="SALDO DISPONIBLE EN MESA" step="0.01">
                 <button class="b-a" id="btn-entrar-nuevo">ENTRAR A JUGAR</button>
+                <div id="btn-continuar-box" style="display:none; margin-top:10px;">
+                    <button class="b-a" id="btn-continuar-sesion" style="background:#27ae60; color:white;">SINCRONIZAR ÚLTIMA PARTIDA</button>
+                </div>
             </div>
 
             <a href="https://wa.me/56995931641?text=Hola%20TECNOENTRETE,%20te%20escribo%20directamente%20desde%20la%20Ruleta%20VIP.%20Necesito%20soporte." class="wsp-f"><i class="fab fa-whatsapp"></i> CONTACTAR SOPORTE</a>
@@ -89,7 +101,7 @@
             </div>
             <div class="stats-row">
                 <div style="flex: 1; border-right: 1px solid #333; text-align: center;">
-                    <div style="font-size: 10px; color: #888;">SALDO MESA</div>
+                    <div style="font-size: 10px; color: #888;">SALDO ACTUAL</div>
                     <div style="font-size: 22px; font-weight: 900; color: #fff;" id="cap-val">$0.00</div>
                 </div>
                 <div style="flex: 1; text-align: center;">
@@ -120,14 +132,19 @@
 
     <script>
     (function(){
-        // BLOQUEO TOTAL DE ZOOM Y DOBLE CLIC
-        document.addEventListener('touchstart', (e) => { if(e.touches.length > 1) e.preventDefault(); }, {passive: false});
-        let lastT = 0;
+        // BLOQUEO DE ZOOM AGRESIVO PARA SAFARI
+        document.addEventListener('touchstart', (e) => {
+            if (e.touches.length > 1) e.preventDefault();
+        }, { passive: false });
+        
+        let lastTouchEnd = 0;
         document.addEventListener('touchend', (e) => {
             let now = Date.now();
-            if(now - lastT <= 300) e.preventDefault();
-            lastT = now;
+            if (now - lastTouchEnd <= 300) e.preventDefault();
+            lastTouchEnd = now;
         }, false);
+
+        document.addEventListener('gesturestart', (e) => e.preventDefault());
 
         let _ba=0, _cI=0, _nP=0, _nG=0, _g=0, _p=0, _h=[], _m=0.2, _s="", _uL="", _uT="", _uS=0, _lS=null, _saveTimer=null;
         const _uA = "https://script.google.com/macros/s/AKfycbzZnxMcWUM7wUQqEBsuaUHfQJeF4g-auZG7s5jrGFONOx3yyAOYgRRvDW0d1QewuC2pfg/exec";
@@ -142,9 +159,14 @@
                 const d = await r.json();
                 if(d.status==="success"){
                     _uL=s; _uS=parseInt(d.segundos);
-                    if(d.estado_nube) { const x = JSON.parse(d.estado_nube); _nG = x.nG || 0; }
                     document.getElementById('step-1').style.display='none';
                     document.getElementById('step-2').style.display='block';
+                    if(d.estado_nube) {
+                        localStorage.setItem('tecno_save_'+_uL, d.estado_nube);
+                        const x = JSON.parse(d.estado_nube);
+                        _nG = x.nG || 0;
+                        document.getElementById('btn-continuar-box').style.display='block';
+                    }
                 } else { document.getElementById('e-m').innerText=d.mensaje; this.innerText="VALIDAR LICENCIA"; }
             } catch(e){ document.getElementById('e-m').innerText="ERROR DE RED"; this.innerText="VALIDAR LICENCIA"; }
         };
@@ -153,6 +175,16 @@
             const v=parseFloat(document.getElementById('c-init').value); if(isNaN(v)||v<=0) return;
             _ba=v; _cI=v; _nP=0; _h=[]; _m=0.2; _s=""; 
             document.getElementById('val-inicial').innerText = "$" + v.toFixed(2);
+            _arrancar();
+        };
+
+        document.getElementById('btn-continuar-sesion').onclick = function(){
+            const sv = localStorage.getItem('tecno_save_'+_uL);
+            if(sv){
+                const x=JSON.parse(sv);
+                _ba=x.ba; _nP=x.nP; _nG=x.nG; _cI=x.cI||x.ba; _g=x.g; _p=x.p; _h=x.h; _m=x.m; _s=x.s;
+                document.getElementById('val-inicial').innerText = "$" + _cI.toFixed(2);
+            }
             _arrancar();
         };
 
@@ -175,10 +207,11 @@
             if(u==='Rojo'&&p==='Rojo'&&a==='Rojo'&&t==='Rojo'&&_h[4]==='Negro'&&_h[5]==='Negro'){_s="NEGRO";return;}
             if(u==='Negro'&&p==='Negro'&&a==='Negro'&&t==='Negro'&&_h[4]==='Rojo'&&_h[5]==='Rojo'){_s="ROJO";return;}
             let r=1; for(let i=0;i<_h.length-1;i++){if(_h[i]===_h[i+1])r++;else break;}
-            if(u===p&&a===t&&u!==a&&a!==""){_s=u.toUpperCase();} else if(r>=3){_s=u.toUpperCase();} else{_s=(u==="Rojo")?"NEGRO":"ROJO";}
+            if(u===p&&a===t&&u!==a&&a!==""){_s=u.toUpperCase();}
+            else if(r>=3){_s=u.toUpperCase();} else{_s=(u==="Rojo")?"NEGRO":"ROJO";}
         }
 
-        document.getElementById('btn-trampa').onclick = function(){ new Image().src = _uA+"?action=reportar_fallo&licencia="+_uL+"&patron="+_h.slice(0,28).join("-"); alert("Reportado."); };
+        document.getElementById('btn-trampa').onclick = function(){ new Image().src = _uA+"?action=reportar_fallo&licencia="+_uL+"&patron="+_h.slice(0,28).join("-"); alert("⚠️ Reportado."); };
 
         function _fUpd(){
             document.getElementById('cap-val').innerText="$"+_ba.toFixed(2);
@@ -189,7 +222,7 @@
             const ch=document.getElementById('c-h'); ch.innerHTML="";
             _h.slice(0,28).forEach((v,idx)=>{
                 const cl=(v==='Rojo')?'red':(v==='Negro'?'#fff':'green');
-                const bd=(idx===0)?'border:2.5px solid var(--c5); box-shadow:0 0 8px var(--c5);':'';
+                const bd=(idx===0)?'border:2.5px solid var(--c5); box-shadow:0 0 10px var(--c5);':'';
                 ch.innerHTML+=`<div class="bola" style="background:${cl}; color:${v==='Negro'?'#000':'#fff'}; ${bd}">${v==='Cero'?'0':''}</div>`;
             });
             let bt=document.getElementById('btn-trampa');
