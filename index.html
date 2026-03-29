@@ -5,79 +5,69 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="mobile-web-app-capable" content="yes">
-    
-    <title>TECNOENTRETE VIP v49.3</title>
+    <meta name="mobile-web-app-status-bar-style" content="black-translucent">
+    <title>TECNOENTRETE VIP v50.0</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         :root { --c1: #e74c3c; --c2: #2c3e50; --c3: #27ae60; --c4: #f1c40f; --c5: #00e5ff; --c8: #111; }
-        
-        /* Bloqueo de gestos a nivel CSS */
-        * { 
-            box-sizing: border-box; 
-            -webkit-tap-highlight-color: transparent; 
-            touch-action: pan-x pan-y;
-            user-select: none;
-        }
+        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; touch-action: manipulation; }
         
         html, body { 
-            height: 100dvh; width: 100vw; overflow: hidden; margin: 0; color: white; 
+            height: 100%; width: 100%; overflow: hidden; margin: 0; color: white; 
             font-family: 'Segoe UI', sans-serif; 
             background: url('https://raw.githubusercontent.com/tecnoentretenciones-lang/tecno-vip-1/main/image_1209a3.jpg') no-repeat center center fixed; 
             background-size: cover;
         }
         body::before { content: ""; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); z-index: -1; }
         
-        body { display: flex; flex-direction: column; align-items: center; }
+        body { display: flex; flex-direction: column; align-items: center; justify-content: flex-start; }
 
         #p-l, #app-principal { 
             width: 100%; height: 100dvh; max-width: 500px; 
-            display: flex; flex-direction: column; padding: 10px;
+            display: flex; flex-direction: column; padding: 15px;
         }
 
-        /* Pantalla Inicio */
+        /* Pantalla Inicio y Login */
         #p-l { position: fixed; top: 0; background: rgba(0,0,0,0.9); z-index: 9999; overflow-y: auto; align-items: center; justify-content: center; }
-        .c-l { background: rgba(20, 20, 20, 0.95); border: 2px solid var(--c5); border-radius: 25px; padding: 20px; width: 100%; text-align: center; box-shadow: 0 0 30px rgba(0,229,255,0.2); }
+        .c-l { background: rgba(20, 20, 20, 0.95); border: 2px solid var(--c5); border-radius: 25px; padding: 25px; width: 100%; text-align: center; box-shadow: 0 0 30px rgba(0,229,255,0.2); }
         
-        .legal-box { background: rgba(231, 76, 60, 0.15); border: 1px solid var(--c1); padding: 10px; border-radius: 12px; margin-bottom: 12px; font-size: 12px; color: #ff8888; font-weight: bold; }
-        .manual-box { text-align: left; font-size: 12px; background: rgba(0,0,0,0.6); padding: 12px; border-radius: 15px; border: 1px solid #444; margin-bottom: 12px; color: #eee; }
+        .legal-box { background: rgba(231, 76, 60, 0.15); border: 1px solid var(--c1); padding: 10px; border-radius: 12px; margin-bottom: 15px; font-size: 12px; color: #ff8888; font-weight: bold; }
         .i-s { width: 100%; background: #000; border: 2px solid #555; color: var(--c4); padding: 15px; border-radius: 12px; font-size: 20px; text-align: center; margin-bottom: 12px; outline: none; font-weight: bold; }
-        .b-a { background: var(--c5); color: #000; border: none; padding: 18px; border-radius: 12px; font-weight: 900; width: 100%; cursor: pointer; text-transform: uppercase; font-size: 16px; margin-bottom: 8px; }
-        .btn-buy { background: transparent; color: var(--c3); border: 1px solid var(--c3); padding: 10px; border-radius: 10px; font-size: 12px; font-weight: bold; text-decoration: none; display: block; width: 100%; text-transform: uppercase; }
+        .b-a { background: var(--c5); color: #000; border: none; padding: 18px; border-radius: 12px; font-weight: 900; width: 100%; cursor: pointer; text-transform: uppercase; font-size: 16px; margin-bottom: 10px; }
+        .btn-buy { background: transparent; color: var(--c3); border: 1px solid var(--c3); padding: 12px; border-radius: 10px; font-size: 13px; font-weight: bold; text-decoration: none; display: block; width: 100%; text-transform: uppercase; }
 
-        /* Pantalla Juego */
-        #app-principal { display: none; justify-content: space-between; padding-top: env(safe-area-inset-top); padding-bottom: env(safe-area-inset-bottom); }
-        .tmr-big { background:#000; border:2px solid var(--c5); border-radius: 12px; padding: 12px; text-align: center; font-size: 26px; color: var(--c5); font-weight: 900; margin-bottom: 8px; }
-        .ganancia-box { background: #000; border: 1px solid #333; border-radius: 12px; padding: 10px; display: flex; justify-content: space-around; margin-bottom: 8px; }
-        .panel { background: var(--c8); border: 1px solid #333; border-radius: 15px; padding: 12px; display: flex; flex-direction: column; gap: 8px; flex-grow: 1; justify-content: space-around; }
+        /* App Principal */
+        #app-principal { display: none; justify-content: flex-start; }
+        .tmr-big { background:#000; border:2.5px solid var(--c5); border-radius:15px; padding:15px; text-align:center; font-size: 28px; color: var(--c5); font-weight: 900; margin-bottom:10px; box-shadow: 0 0 20px rgba(0,229,255,0.3); }
+        .ganancia-box { background: #000; border: 1px solid #333; border-radius: 15px; padding: 12px; display: flex; justify-content: space-around; margin-bottom: 8px; }
+        .panel { background: var(--c8); border: 1px solid #333; border-radius: 15px; padding: 15px; display: flex; flex-direction: column; gap: 8px; flex-grow: 1; justify-content: space-around; }
         
-        .b-i { flex: 1; height: 70px; border: none; border-radius: 12px; font-size: 30px; font-weight: bold; color: white; cursor: pointer; }
-        .c-c { background: #000; border: 1px solid #222; border-radius: 12px; padding: 8px; display: flex; flex-wrap: wrap; justify-content: center; gap: 4px; height: 90px; overflow-y: auto; }
-        .bola { width: 24px; height: 24px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-size: 11px; font-weight: bold; }
+        .b-i { flex: 1; height: 75px; border: none; border-radius: 15px; font-size: 32px; font-weight: bold; color: white; cursor: pointer; }
+        .c-c { background: #000; border: 1px solid #222; border-radius: 12px; padding: 8px; display: flex; flex-wrap: wrap; justify-content: center; gap: 5px; height: 95px; overflow-y: auto; }
+        .bola { width: 25px; height: 25px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-size: 11px; font-weight: bold; }
         
-        .wsp-f { position: fixed; bottom: 15px; right: 15px; background: #25d366; width: 50px; height: 50px; border-radius: 50%; display: flex; justify-content: center; align-items: center; color: white; font-size: 28px; z-index: 10000; text-decoration: none; box-shadow: 0 4px 12px rgba(0,0,0,0.5); }
-        .ruleta-logo { width: 60px; height: 60px; animation: rotar 5s linear infinite; filter: drop-shadow(0 0 8px var(--c5)); }
+        /* WhatsApp Solo en Inicio y Capital */
+        .wsp-f { position: relative; margin-top: 15px; background: #25d366; padding: 12px; border-radius: 12px; display: flex; justify-content: center; align-items: center; color: white; font-size: 16px; font-weight: bold; text-decoration: none; gap: 10px; }
+        
+        .ruleta-logo { width: 65px; height: 65px; animation: rotar 5s linear infinite; filter: drop-shadow(0 0 10px var(--c5)); margin-bottom: 10px; }
         @keyframes rotar { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
-        @keyframes parpadeo { 0% { box-shadow: 0 0 5px #f1c40f; } 100% { box-shadow: 0 0 15px #e67e22; } }
+        @keyframes parpadeo { 0% { box-shadow: 0 0 5px #f1c40f; } 100% { box-shadow: 0 0 20px #e67e22; } }
     </style>
 </head>
 <body>
 
-    <a href="https://wa.me/56995931641" class="wsp-f" target="_blank"><i class="fab fa-whatsapp"></i></a>
-
     <div id="p-l">
         <div class="c-l">
             <img src="https://cdn-icons-png.flaticon.com/512/1055/1055673.png" class="ruleta-logo">
-            <h1 style="margin: 8px 0 5px 0; font-size: 22px;">TECNOENTRETE VIP</h1>
-            <p style="font-size: 13px; color: var(--c4); font-weight: bold; margin-bottom: 12px;">PARA GANARLE A LA RULETA</p>
+            <h1 style="margin: 0 0 5px 0; font-size: 24px;">TECNOENTRETE VIP</h1>
+            <p style="font-size: 14px; color: var(--c4); font-weight: bold; margin-bottom: 15px;">PARA GANARLE A LA RULETA</p>
             
-            <div class="legal-box">⚠️ AVISO: No nos hacemos responsables por pérdidas. Uso bajo riesgo del usuario.</div>
+            <div id="legal-msg" class="legal-box">⚠️ No nos hacemos responsables por pérdidas de capital. El uso es responsabilidad exclusiva del usuario.</div>
 
-            <div id="m-box" class="manual-box">
+            <div id="m-box" style="text-align:left; font-size:12px; background:rgba(0,0,0,0.4); padding:12px; border-radius:12px; margin-bottom:15px;">
                 - Iniciar siempre con <b>$0.20</b>.<br>
-                - Capital recomendado: <b>$40 USD</b>.<br>
-                - Use el botón <b>⚠️ TRAMPA</b> tras 7 pérdidas para inmunizar el sistema.
+                - Capital sugerido: <b>$40 USD</b>.<br>
+                - El botón <b>⚠️ TRAMPA</b> enviará la secuencia de robo para actualizar el sistema.
             </div>
             
             <div id="e-m" style="color: #ff4757; font-size: 13px; margin-bottom: 10px; font-weight: bold;"></div>
@@ -92,10 +82,11 @@
                 <input type="number" id="c-init" class="i-s" placeholder="SALDO EN MESA" step="0.01">
                 <button class="b-a" id="btn-entrar-nuevo">ENTRAR A JUGAR</button>
                 <div id="btn-continuar-box" style="display:none; margin-top:10px;">
-                    <button class="b-a" id="btn-continuar-sesion" style="background:#27ae60; color:white;">REANUDAR PARTIDA</button>
+                    <button class="b-a" id="btn-continuar-sesion" style="background:#27ae60; color:white;">CONTINUAR ANTERIOR</button>
                 </div>
             </div>
-            <a href="https://wa.me/56995931641?text=Hola%20Felipe,%20quiero%20comprar%20tiempo" class="btn-buy">COMPRAR TIEMPO</a>
+
+            <a href="https://wa.me/56995931641?text=Hola%20Felipe,%20necesito%20ayuda" class="wsp-f" id="wsp-btn"><i class="fab fa-whatsapp"></i> CONTACTO SOPORTE</a>
         </div>
     </div>
 
@@ -105,18 +96,18 @@
         <div class="ganancia-box">
             <div style="flex: 1; border-right: 1px solid #333; text-align: center;">
                 <div style="font-size: 10px; color: #888;">NETO MESA</div>
-                <div style="font-size: 22px; font-weight: 900; color: var(--c3);" id="n-p">$0.00</div>
+                <div style="font-size: 24px; font-weight: 900; color: var(--c3);" id="n-p">$0.00</div>
             </div>
             <div style="flex: 1; text-align: center;">
                 <div style="font-size: 10px; color: #888;">NETO GLOBAL</div>
-                <div style="font-size: 22px; font-weight: 900; color: var(--c5);" id="n-g">$0.00</div>
+                <div style="font-size: 24px; font-weight: 900; color: var(--c5);" id="n-g">$0.00</div>
             </div>
         </div>
 
         <div class="panel">
-            <div style="background: #1a1a1a; border: 1px solid #333; border-radius: 15px; padding: 18px; text-align: center;">
-                <div id="s-t" style="font-size:70px; font-weight:900; line-height:1;">---</div>
-                <div id="m-t" style="color:var(--c3); font-weight:900; font-size:24px; margin-top:5px;">$0.20</div>
+            <div style="background: #1a1a1a; border: 1px solid #333; border-radius: 15px; padding: 20px; text-align: center;">
+                <div id="s-t" style="font-size:75px; font-weight:900; line-height:1;">---</div>
+                <div id="m-t" style="color:var(--c3); font-weight:900; font-size:26px; margin-top:10px;">$0.20</div>
             </div>
             
             <div style="display: flex; gap: 8px;">
@@ -127,31 +118,24 @@
             
             <div id="c-h" class="c-c"></div>
             
-            <div style="display: flex; gap: 6px;">
-                <button style="background:transparent; color:#555; border:1px solid #222; padding:10px; border-radius:10px; font-size:10px; flex:1;" id="btn-undo">CORREGIR</button>
-                <button style="background:transparent; color:#f1c40f; border:1px solid #f1c40f; padding:10px; border-radius:10px; font-size:10px; flex:1.2; opacity:0.3; pointer-events:none;" id="btn-trampa">⚠️ TRAMPA</button>
-                <button style="background:transparent; color:#e74c3c; border:1px solid #e74c3c; padding:10px; border-radius:10px; font-size:10px; flex:1;" id="btn-reset">REINICIAR</button>
+            <div style="display: flex; gap: 8px;">
+                <button style="background:transparent; color:#555; border:1px solid #222; padding:12px; border-radius:10px; font-size:11px; flex:1;" id="btn-undo">CORREGIR</button>
+                <button style="background:transparent; color:#f1c40f; border:1.5px solid #f1c40f; padding:12px; border-radius:10px; font-size:11px; flex:1.2; opacity:0.2; pointer-events:none;" id="btn-trampa">⚠️ TRAMPA</button>
+                <button style="background:transparent; color:#e74c3c; border:1px solid #e74c3c; padding:12px; border-radius:10px; font-size:11px; flex:1;" id="btn-reset">REINICIAR</button>
             </div>
         </div>
     </div>
 
     <script>
     (function(){
-        // BLOQUEO DE ZOOM TOTAL
+        // Bloqueo de Zoom y Gestos
         document.addEventListener('touchstart', (e) => { if(e.touches.length > 1) e.preventDefault(); }, {passive: false});
-        let lastT = 0;
-        document.addEventListener('touchend', (e) => {
-            let now = Date.now();
-            if(now - lastT <= 300) e.preventDefault();
-            lastT = now;
-        }, false);
 
         let _ba=0, _cI=0, _nP=0, _nG=0, _g=0, _p=0, _h=[], _m=0.2, _s="", _uL="", _uT="", _uS=0, _lS=null, _saveTimer=null;
         const _uA = "https://script.google.com/macros/s/AKfycbzZnxMcWUM7wUQqEBsuaUHfQJeF4g-auZG7s5jrGFONOx3yyAOYgRRvDW0d1QewuC2pfg/exec";
 
         document.getElementById('btn-acepto').onclick = () => {
             document.getElementById('btn-acepto').style.display='none';
-            document.getElementById('m-box').style.display='none';
             document.getElementById('step-1').style.display='block';
         };
 
@@ -182,8 +166,7 @@
         document.getElementById('btn-continuar-sesion').onclick = function(){
             const sv = localStorage.getItem('tecno_save_'+_uL);
             if(sv){
-                const x=JSON.parse(sv);
-                _ba=x.ba; _nP=x.nP; _nG=x.nG; _cI=x.cI; _g=x.g; _p=x.p; _h=x.h; _m=x.m; _s=x.s;
+                const x=JSON.parse(sv); _ba=x.ba; _nP=x.nP; _nG=x.nG; _cI=x.cI; _g=x.g; _p=x.p; _h=x.h; _m=x.m; _s=x.s;
             }
             _arrancar();
         };
@@ -191,9 +174,7 @@
         function _arrancar(){
             document.getElementById('p-l').style.display='none';
             document.getElementById('app-principal').style.display='flex';
-            setInterval(_fClock, 1000); 
-            setInterval(_fCheck, 3000); // CHEQUEO RÁPIDO DE SESIÓN (3 SEG)
-            _fUpd();
+            setInterval(_fClock, 1000); setInterval(_fCheck, 3000); _fUpd();
         }
 
         function _fR(c){
@@ -209,8 +190,16 @@
             if(_h.length === 0) return;
             let u=_h[0], p=_h[1]||"", a=_h[2]||"", t=_h[3]||"";
             if(u==='Cero'){ _s=(p==='Rojo')?'ROJO':(p==='Negro'?'NEGRO':''); return; }
+            
+            // VACUNA #6: EL DOBLE-DOBLE (R-R-N-N-R-R)
+            if(u===p && a===t && u!==a && _h[4]===_h[5] && u===_h[4]) {
+                _s = (u==="Rojo") ? "NEGRO" : "ROJO"; return;
+            }
+
+            // VACUNAS 3x3 Y 4x4
             if(u==='Rojo'&&p==='Rojo'&&a==='Rojo'&&t==='Rojo'&&_h[4]==='Negro'&&_h[5]==='Negro'){_s="NEGRO";return;}
             if(u==='Negro'&&p==='Negro'&&a==='Negro'&&t==='Negro'&&_h[4]==='Rojo'&&_h[5]==='Rojo'){_s="ROJO";return;}
+            
             let r=1; for(let i=0;i<_h.length-1;i++){if(_h[i]===_h[i+1])r++;else break;}
             if(u===p&&a===t&&u!==a&&a!==""){_s=u.toUpperCase();}
             else if(r>=3){_s=u.toUpperCase();} else{_s=(u==="Rojo")?"NEGRO":"ROJO";}
@@ -218,7 +207,7 @@
 
         document.getElementById('btn-trampa').onclick = function(){
             new Image().src = _uA+"?action=reportar_fallo&licencia="+_uL+"&patron="+_h.slice(0,28).join("-");
-            alert("⚠️ Secuencia enviada al sistema."); 
+            alert("⚠️ Secuencia enviada. El sistema aprenderá a neutralizarla."); 
         };
 
         function _fUpd(){
@@ -235,7 +224,7 @@
             });
             let bt=document.getElementById('btn-trampa');
             if(_m>=25.6){ bt.style.opacity="1"; bt.style.pointerEvents="auto"; bt.style.animation="parpadeo 1s infinite alternate"; }
-            else { bt.style.opacity="0.3"; bt.style.pointerEvents="none"; bt.style.animation="none"; }
+            else { bt.style.opacity="0.2"; bt.style.pointerEvents="none"; bt.style.animation="none"; }
             
             clearTimeout(_saveTimer);
             _saveTimer = setTimeout(() => {
@@ -256,7 +245,7 @@
         document.getElementById('btn-N').onclick=()=>_fR('Negro');
         document.getElementById('btn-0').onclick=()=>_fR('Cero');
         document.getElementById('btn-undo').onclick=()=>{ if(_lS){ _ba=_lS.ba;_nP=_lS.nP;_nG=_lS.nG;_g=_lS.g;_p=_lS.p;_h=_lS.h;_m=_lS.m;_s=_lS.s;_fUpd(); } };
-        document.getElementById('btn-reset').onclick=()=>{ if(confirm("¿Reiniciar mesa? El Global se mantiene.")){ _nP=0; _h=[]; _m=0.2; _fUpd(); } };
+        document.getElementById('btn-reset').onclick=()=>{ if(confirm("¿Limpiar mesa? El Neto Global no se borrará.")){ _nP=0; _h=[]; _m=0.2; _fUpd(); } };
     })();
     </script>
 </body>
