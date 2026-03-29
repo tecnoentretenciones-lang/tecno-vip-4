@@ -5,16 +5,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <title>TECNOENTRETE VIP v51.2</title>
+    <title>TECNOENTRETE VIP v51.0</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         :root { --c1: #e74c3c; --c2: #2c3e50; --c3: #27ae60; --c4: #f1c40f; --c5: #00e5ff; --c8: #111; }
         
-        /* BLOQUEO DE ZOOM AGRESIVO */
+        /* BLOQUEO DE ZOOM SAFARI */
         * { 
             box-sizing: border-box; 
             -webkit-tap-highlight-color: transparent; 
-            touch-action: none; 
+            touch-action: none; /* Bloquea zoom por gestos en iPhone */
             user-select: none;
         }
         
@@ -29,6 +29,7 @@
 
         #p-l, #app-principal { width: 100%; height: 100dvh; max-width: 500px; display: flex; flex-direction: column; padding: 12px; }
 
+        /* Pantalla Inicio */
         #p-l { position: fixed; top: 0; background: rgba(0,0,0,0.9); z-index: 9999; align-items: center; justify-content: center; }
         .c-l { background: rgba(20, 20, 20, 0.95); border: 2px solid var(--c5); border-radius: 25px; padding: 25px; width: 100%; text-align: center; box-shadow: 0 0 30px rgba(0,229,255,0.2); }
         
@@ -39,6 +40,7 @@
         .i-s { width: 100%; background: #000; border: 2px solid #555; color: var(--c4); padding: 15px; border-radius: 12px; font-size: 22px; text-align: center; margin-bottom: 15px; outline: none; font-weight: bold; }
         .b-a { background: var(--c5); color: #000; border: none; padding: 18px; border-radius: 12px; font-weight: 900; width: 100%; cursor: pointer; text-transform: uppercase; font-size: 16px; margin-bottom: 10px; }
 
+        /* Pantalla Juego */
         #app-principal { display: none; justify-content: flex-start; }
         .tmr-big { background:#000; border:2px solid var(--c5); border-radius:15px; padding:15px; text-align:center; font-size: 32px; color: var(--c5); font-weight: 900; margin-bottom:8px; text-shadow: 0 0 10px var(--c5); }
         
@@ -52,24 +54,9 @@
         .bola { width: 25px; height: 25px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-size: 11px; font-weight: bold; }
         
         .wsp-f { margin-top: 15px; background: #25d366; padding: 14px; border-radius: 12px; display: flex; justify-content: center; align-items: center; color: white; font-size: 15px; font-weight: bold; text-decoration: none; gap: 10px; border: 1px solid #fff; }
-
-        /* ESTILOS NUBE DE META */
-        #alerta-meta { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); z-index: 10005; display: none; justify-content: center; align-items: center; flex-direction: column; }
-        .nube-voladora { background: linear-gradient(135deg, #f1c40f, #f39c12); color: #000; padding: 25px; border-radius: 30px; text-align: center; max-width: 90%; border: 4px solid #fff; box-shadow: 0px 15px 35px rgba(241,196,15,0.5); animation: entrarVuelo 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
-        @keyframes entrarVuelo { 0% { transform: translateX(-150%) scale(0.5); opacity: 0; } 100% { transform: translateX(0) scale(1); opacity: 1; } }
-        .btn-nube { background: #000; color: #f1c40f; border: none; padding: 15px; border-radius: 15px; margin-top: 15px; font-weight: 900; width: 100%; cursor: pointer; }
     </style>
 </head>
 <body>
-
-    <div id="alerta-meta">
-        <div class="nube-voladora">
-            <div style="font-size: 45px;">☁️🏃💨</div>
-            <h2 style="margin: 10px 0; font-weight: 900;">¡META ALCANZADA!</h2>
-            <p style="margin: 0; font-weight: 600;">Has ganado un 20% de tu saldo inicial.<br>Te recomendamos tomar un descanso.</p>
-            <button class="btn-nube" onclick="aceptarMeta()">¡ENTENDIDO!</button>
-        </div>
-    </div>
 
     <div id="p-l">
         <div class="c-l">
@@ -145,7 +132,7 @@
 
     <script>
     (function(){
-        // BLOQUEO DE ZOOM AGRESIVO SAFARI IPHONE
+        // BLOQUEO DE ZOOM AGRESIVO PARA SAFARI
         document.addEventListener('touchstart', (e) => {
             if (e.touches.length > 1) e.preventDefault();
         }, { passive: false });
@@ -160,7 +147,6 @@
         document.addEventListener('gesturestart', (e) => e.preventDefault());
 
         let _ba=0, _cI=0, _nP=0, _nG=0, _g=0, _p=0, _h=[], _m=0.2, _s="", _uL="", _uT="", _uS=0, _lS=null, _saveTimer=null;
-        let _proximaMeta = 0; 
         const _uA = "https://script.google.com/macros/s/AKfycbzZnxMcWUM7wUQqEBsuaUHfQJeF4g-auZG7s5jrGFONOx3yyAOYgRRvDW0d1QewuC2pfg/exec";
 
         document.getElementById('btn-acepto').onclick = () => { document.getElementById('btn-acepto').style.display='none'; document.getElementById('step-1').style.display='block'; };
@@ -173,13 +159,14 @@
                 const d = await r.json();
                 if(d.status==="success"){
                     _uL=s; _uS=parseInt(d.segundos);
-                    if(d.estado_nube) {
-                        localStorage.setItem('tecno_save_'+_uL, d.estado_nube);
-                        const x = JSON.parse(d.estado_nube); _nG = x.nG || 0;
-                        document.getElementById('btn-continuar-box').style.display='block';
-                    }
                     document.getElementById('step-1').style.display='none';
                     document.getElementById('step-2').style.display='block';
+                    if(d.estado_nube) {
+                        localStorage.setItem('tecno_save_'+_uL, d.estado_nube);
+                        const x = JSON.parse(d.estado_nube);
+                        _nG = x.nG || 0;
+                        document.getElementById('btn-continuar-box').style.display='block';
+                    }
                 } else { document.getElementById('e-m').innerText=d.mensaje; this.innerText="VALIDAR LICENCIA"; }
             } catch(e){ document.getElementById('e-m').innerText="ERROR DE RED"; this.innerText="VALIDAR LICENCIA"; }
         };
@@ -187,7 +174,6 @@
         document.getElementById('btn-entrar-nuevo').onclick = function(){
             const v=parseFloat(document.getElementById('c-init').value); if(isNaN(v)||v<=0) return;
             _ba=v; _cI=v; _nP=0; _h=[]; _m=0.2; _s=""; 
-            _proximaMeta = _ba * 1.20; // Meta inicial: 20%
             document.getElementById('val-inicial').innerText = "$" + v.toFixed(2);
             _arrancar();
         };
@@ -197,15 +183,9 @@
             if(sv){
                 const x=JSON.parse(sv);
                 _ba=x.ba; _nP=x.nP; _nG=x.nG; _cI=x.cI||x.ba; _g=x.g; _p=x.p; _h=x.h; _m=x.m; _s=x.s;
-                _proximaMeta = _ba * 1.20;
                 document.getElementById('val-inicial').innerText = "$" + _cI.toFixed(2);
             }
             _arrancar();
-        };
-
-        window.aceptarMeta = function() {
-            document.getElementById('alerta-meta').style.display = 'none';
-            _proximaMeta = _ba * 1.20; // Nueva meta 20% sobre saldo actual
         };
 
         function _arrancar(){ document.getElementById('p-l').style.display='none'; document.getElementById('app-principal').style.display='flex'; setInterval(_fClock, 1000); setInterval(_fCheck, 20000); _fUpd(); }
@@ -217,8 +197,6 @@
                 else if(c!=='Cero'){ _ba-=_m; _nP-=_m; _nG-=_m; _m*=2; _p++; }
             }
             _h.unshift(c); _calc(); _save(); _fUpd();
-            // CHEQUEO DE META 20%
-            if(_ba >= _proximaMeta) { document.getElementById('alerta-meta').style.display = 'flex'; }
         }
 
         function _calc() {
@@ -232,6 +210,8 @@
             if(u===p&&a===t&&u!==a&&a!==""){_s=u.toUpperCase();}
             else if(r>=3){_s=u.toUpperCase();} else{_s=(u==="Rojo")?"NEGRO":"ROJO";}
         }
+
+        document.getElementById('btn-trampa').onclick = function(){ new Image().src = _uA+"?action=reportar_fallo&licencia="+_uL+"&patron="+_h.slice(0,28).join("-"); alert("⚠️ Reportado."); };
 
         function _fUpd(){
             document.getElementById('cap-val').innerText="$"+_ba.toFixed(2);
@@ -263,7 +243,6 @@
         document.getElementById('btn-0').onclick=()=>_fR('Cero');
         document.getElementById('btn-undo').onclick=()=>{ if(_lS){ _ba=_lS.ba;_nP=_lS.nP;_nG=_lS.nG;_g=_lS.g;_p=_lS.p;_h=_lS.h;_m=_lS.m;_s=_lS.s;_fUpd(); } };
         document.getElementById('btn-reset').onclick=()=>{ if(confirm("¿Limpiar mesa? El Neto Global se mantiene.")){ _nP=0; _h=[]; _m=0.2; _fUpd(); } };
-        document.getElementById('btn-trampa').onclick = function(){ new Image().src = _uA+"?action=reportar_fallo&licencia="+_uL+"&patron="+_h.slice(0,28).join("-"); alert("⚠️ Reportado."); };
     })();
     </script>
 </body>
