@@ -405,30 +405,22 @@
             _calc(); _save(); _fUpd();
         }
 
-        // ---------- MOTOR MATEMÁTICO BLINDADO (CAZADOR DE TRAMPAS) ----------
+        // ---------- MOTOR MATEMÁTICO BLINDADO (RESTAURADO) ----------
         function _calc() {
             if(_h.length === 0) return;
             let u=_h[0], p=_h[1]||"", a=_h[2]||"", t=_h[3]||"";
 
-            // === [SECCIÓN 1]: LAS VACUNAS (PRIORIDAD ALTA) ===
-
+            // === [SECCIÓN 1]: LAS VACUNAS NECESARIAS ===
+            
             // 1. Vacuna Anti-"Beso de la Muerte" (El Cero Verde)
             if (u === 'Cero') {
                 if (p === 'Rojo') _s = 'ROJO'; 
                 else if (p === 'Negro') _s = 'NEGRO';
-                else _s = ''; // Si es el primer tiro o ceros seguidos
+                else _s = ''; 
                 return; 
             }
             
-            // 2. Vacuna Anti-"Caos Irregular" (Rompe el serrucho de 3 engañoso)
-            if (u === 'Rojo' && p === 'Negro' && a === 'Rojo') {
-                _s = "ROJO"; return; 
-            }
-            if (u === 'Negro' && p === 'Rojo' && a === 'Negro') {
-                _s = "NEGRO"; return; 
-            }
-
-            // 3. Vacuna Anti-"3x1 Mortal" (Evita caer en la trampa N-N-N-R)
+            // 2. Vacuna Anti-"3x1 Mortal" (N-N-N-R)
             if (u === 'Rojo' && p === 'Negro' && a === 'Negro' && t === 'Negro') {
                 _s = "NEGRO"; return; 
             }
@@ -436,33 +428,27 @@
                 _s = "ROJO"; return; 
             }
 
-            // === [SECCIÓN 2]: LÓGICA POR DEFECTO DEL USUARIO ===
+            // === [SECCIÓN 2]: TU LÓGICA ORIGINAL EXACTA ===
             let racha=1; 
             for(let i=0; i<_h.length-1; i++){ 
-                if(_h[i]===_h[i+1] && _h[i] !== 'Cero') racha++; 
+                if(_h[i]===_h[i+1]) racha++; 
                 else break; 
             }
 
-            // A. Pares dobles: R-R-N-N -> R (Se sube a la ola de dobles alternos)
             if(u === p && a === t && u !== a && a !== ""){ 
-                _s = (u === "Rojo") ? "NEGRO" : "ROJO"; 
-                return;
-            }
-
-            // B. Tren loco: "En el cuarto color del mismo le empieza apostar"
-            // Si hay 3 iguales o más (ej. R-R-R), se sube al tren (apuesta ROJO)
-            if(racha >= 3){ 
                 _s = u.toUpperCase(); 
-                return;
             }
-
-            // C. Serrucho normal: "Se sube a la secuencia"
-            // Por defecto, asume que la mesa intercala colores
-            if (u === "Rojo") _s = "NEGRO";
-            else if (u === "Negro") _s = "ROJO";
-            else _s = ""; 
+            else if(racha>=3){ 
+                _s = u.toUpperCase(); 
+            }
+            else if(u!==p && p===a){ 
+                _s = u.toUpperCase(); 
+            }
+            else { 
+                _s = (u==="Rojo") ? "NEGRO" : "ROJO"; 
+            }
         }
-        // ---------- FIN DEL MOTOR MATEMÁTICO BLINDADO ----------
+        // ---------- FIN DEL MOTOR MATEMÁTICO ----------
 
         function _sendNexus(colorSalido) {
             const patron = _h.slice(0,10).join("-");
