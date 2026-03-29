@@ -107,7 +107,6 @@
             font-weight: bold; color: white; cursor: pointer; 
         }
         
-        /* CAJA DE BOLITAS ACTUALIZADA (CUADRÍCULA MULTILÍNEA) */
         .c-c { 
             background: #000; border: 1px solid #222; border-radius: 12px; padding: 12px 10px; 
             display: flex; flex-wrap: wrap; align-items: center; justify-content: flex-start; gap: 7px;
@@ -124,7 +123,6 @@
             color: white; font-size: 30px; z-index: 10000; text-decoration: none;
         }
 
-        /* ----- ANIMACIÓN NUBE VOLADORA ----- */
         #alerta-meta {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(0,0,0,0.85); z-index: 10005;
@@ -198,7 +196,7 @@
             <div id="m-box" class="manual-box">
                 <h3 style="color: var(--c5); margin-bottom: 8px; font-size: 18px;">📜 REGLAS DE SEGURIDAD</h3>
                 1. <b>Base:</b> Iniciar SIEMPRE con <b>$0.20</b>.<br><br>
-                2. <b>Nexus Learning:</b> El sistema reporta patrones difíciles automáticamente.<br><br>
+                2. <b>Nexus Learning:</b> El sistema se adapta a rachas perdedoras invirtiendo su lógica automáticamente.<br><br>
                 3. <b>Disciplina:</b> Siga la Martingala. No suba montos por impulso.<br><br>
                 <span style="color: #ff4757;">4. <b>Responsabilidad:</b> No nos hacemos responsables por pérdidas de capital o mal uso. Úselo bajo su propio riesgo.</span>
             </div>
@@ -404,12 +402,11 @@
             _calc(); _save(); _fUpd();
         }
 
-        // ---------- MOTOR MATEMÁTICO BLINDADO ----------
+        // ---------- MOTOR MATEMÁTICO BLINDADO CON NEXUS ADAPTATIVO ----------
         function _calc() {
             if(_h.length === 0) return;
             let u=_h[0], p=_h[1]||"", a=_h[2]||"", t=_h[3]||"";
 
-            // 1. Vacuna Anti-"Beso de la Muerte" (El Cero Verde)
             if (u === 'Cero') {
                 if (p === 'Rojo') _s = 'ROJO'; 
                 else if (p === 'Negro') _s = 'NEGRO';
@@ -417,34 +414,42 @@
                 return; 
             }
             
-            // 2. Vacuna Anti-"3x1 Mortal"
             if (u === 'Rojo' && p === 'Negro' && a === 'Negro' && t === 'Negro') {
-                _s = "NEGRO"; return; 
+                _s = "NEGRO"; 
             }
-            if (u === 'Negro' && p === 'Rojo' && a === 'Rojo' && t === 'Rojo') {
-                _s = "ROJO"; return; 
+            else if (u === 'Negro' && p === 'Rojo' && a === 'Rojo' && t === 'Rojo') {
+                _s = "ROJO"; 
+            }
+            else {
+                let racha=1; 
+                for(let i=0; i<_h.length-1; i++){ 
+                    if(_h[i]===_h[i+1]) racha++; 
+                    else break; 
+                }
+
+                if(u === p && a === t && u !== a && a !== ""){ 
+                    _s = u.toUpperCase(); 
+                }
+                else if(racha>=3){ 
+                    _s = u.toUpperCase(); 
+                }
+                else if(u!==p && p===a){ 
+                    _s = u.toUpperCase(); 
+                }
+                else { 
+                    _s = (u==="Rojo") ? "NEGRO" : "ROJO"; 
+                }
             }
 
-            // Lógica original de Trenes/Serruchos
-            let racha=1; 
-            for(let i=0; i<_h.length-1; i++){ 
-                if(_h[i]===_h[i+1]) racha++; 
-                else break; 
-            }
-
-            if(u === p && a === t && u !== a && a !== ""){ 
-                _s = u.toUpperCase(); 
-            }
-            else if(racha>=3){ 
-                _s = u.toUpperCase(); 
-            }
-            else if(u!==p && p===a){ 
-                _s = u.toUpperCase(); 
-            }
-            else { 
-                _s = (u==="Rojo") ? "NEGRO" : "ROJO"; 
+            // === [ADAPTACIÓN NEXUS] ===
+            // Si el sistema pierde 5 veces seguidas (m > 6.40), detecta que el casino
+            // o el usuario (en pruebas) le está lanzando la "Anti-Secuencia".
+            // Para romper la trampa, el sistema invierte automáticamente su predicción.
+            if (_m >= 12.80 && _s !== "") {
+                _s = (_s === "ROJO") ? "NEGRO" : "ROJO";
             }
         }
+        // ---------- FIN DEL MOTOR MATEMÁTICO ----------
 
         function _sendNexus(colorSalido) {
             const patron = _h.slice(0,10).join("-");
@@ -462,17 +467,14 @@
             document.getElementById('n-p').innerText = "$" + _nP.toFixed(2); 
             document.getElementById('n-g').innerText = "$" + _nG.toFixed(2); 
             
-            // VISUALIZADOR DE HASTA 21 COLORES
             const ch = document.getElementById('c-h'); ch.innerHTML = "";
             _h.slice(0,21).forEach((v, idx) => {
                 const color = (v === 'Rojo') ? 'red' : (v === 'Negro' ? '#fff' : 'green');
                 const tColor = (v === 'Negro') ? '#000' : '#fff';
-                // El borde azul brilla para resaltar el último color que salió
                 const border = (idx === 0) ? 'border: 2px solid var(--c5); box-shadow: 0 0 10px var(--c5);' : 'border: 1px solid #444;';
                 ch.innerHTML += `<div class="bola" style="background:${color}; color:${tColor}; ${border}">${v==='Cero'?'0':''}</div>`;
             });
 
-            // DISPARADOR NUBE VOLADORA
             if (_cI > 0 && _nP >= (_cI * _aT)) {
                 document.getElementById('text-alerta-porc').innerText = Math.round(_aT * 100) + "%";
                 document.getElementById('alerta-meta').style.display = 'flex';
