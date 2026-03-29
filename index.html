@@ -87,34 +87,36 @@
 
         #app-principal { 
             display: none; width: 100%; max-width: 480px; flex-direction: column; 
-            height: 100dvh; margin: 0 auto; padding: 15px 10px; z-index: 1; position: relative;
+            height: 100dvh; margin: 0 auto; padding: 10px 10px; z-index: 1; position: relative;
         }
         
         .ganancia-box { 
-            background: #000; border: 1px solid #333; border-radius: 15px; padding: 10px;
-            text-align: center; margin-bottom: 12px; flex-shrink: 0;
+            background: #000; border: 1px solid #333; border-radius: 15px; padding: 8px;
+            text-align: center; margin-bottom: 10px; flex-shrink: 0;
             display: flex; justify-content: space-around; align-items: center;
         }
         
         .panel { 
             background: var(--c8); border: 1px solid #333;
-            border-radius: 15px; padding: 18px; flex-grow: 1; display: flex; 
+            border-radius: 15px; padding: 15px; flex-grow: 1; display: flex; 
             flex-direction: column; justify-content: space-around; overflow: hidden;
         }
         
         .b-i { 
-            flex: 1; height: 75px; border: none; border-radius: 15px; font-size: 32px;
+            flex: 1; height: 65px; border: none; border-radius: 15px; font-size: 28px;
             font-weight: bold; color: white; cursor: pointer; 
         }
         
+        /* CAJA DE BOLITAS REDISEÑADA PARA 28 COLORES */
         .c-c { 
-            background: #000; border: 1px solid #222; border-radius: 12px; padding: 12px 10px; 
-            display: flex; flex-wrap: wrap; align-items: center; justify-content: flex-start; gap: 7px;
+            background: #000; border: 1px solid #222; border-radius: 12px; padding: 10px; 
+            display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 6px;
+            min-height: 105px; align-content: flex-start;
         }
         
         .bola { 
-            width: 28px; height: 28px; border-radius: 50%; display: inline-flex; align-items: center;
-            justify-content: center; font-size: 12px; font-weight: bold; flex-shrink: 0;
+            width: 25px; height: 25px; border-radius: 50%; display: inline-flex; align-items: center;
+            justify-content: center; font-size: 11px; font-weight: bold; flex-shrink: 0;
         }
         
         .wsp-f { 
@@ -196,7 +198,7 @@
             <div id="m-box" class="manual-box">
                 <h3 style="color: var(--c5); margin-bottom: 8px; font-size: 18px;">📜 REGLAS DE SEGURIDAD</h3>
                 1. <b>Base:</b> Iniciar SIEMPRE con <b>$0.20</b>.<br><br>
-                2. <b>Flujo Dinámico:</b> El sistema rastrea patrones sin rendirse ni detenerse.<br><br>
+                2. <b>Nexus Learning:</b> Usa el botón de Reportar Trampa para alimentar la base de datos del sistema.<br><br>
                 3. <b>Disciplina:</b> Siga la Martingala. No suba montos por impulso.<br><br>
                 <span style="color: #ff4757;">4. <b>Responsabilidad:</b> No nos hacemos responsables por pérdidas de capital o mal uso. Úselo bajo su propio riesgo.</span>
             </div>
@@ -236,33 +238,33 @@
     </div>
 
     <div id="app-principal">
-        <div style="background:#111; border:1px solid #333; border-radius:10px; padding:8px; margin-bottom:12px; text-align:center; font-size: 11px; color: #666; flex-shrink: 0;">
+        <div style="background:#111; border:1px solid #333; border-radius:10px; padding:6px; margin-bottom:10px; text-align:center; font-size: 11px; color: #666; flex-shrink: 0;">
             TIEMPO RESTANTE: <span id="tmr" style="color:var(--c5); font-weight: bold;">--:--:--</span>
         </div>
         
         <div class="ganancia-box">
             <div style="flex: 1; border-right: 1px solid #333;">
                 <div style="font-size: 11px; color: #888; margin-bottom: 3px;">NETO PARCIAL</div>
-                <div style="font-size: 28px; font-weight: 900; color: var(--c3);" id="n-p">$0.00</div>
+                <div style="font-size: 24px; font-weight: 900; color: var(--c3);" id="n-p">$0.00</div>
             </div>
             <div style="flex: 1;">
                 <div style="font-size: 11px; color: #888; margin-bottom: 3px;">NETO GLOBAL</div>
-                <div style="font-size: 28px; font-weight: 900; color: var(--c5);" id="n-g">$0.00</div>
+                <div style="font-size: 24px; font-weight: 900; color: var(--c5);" id="n-g">$0.00</div>
             </div>
         </div>
         
         <div class="panel">
-            <div style="display: flex; justify-content: space-around; background: #151515; padding: 12px; border-radius: 12px; border: 1px solid #222;">
-                <div style="text-align:center; font-size: 11px; color: #666;">CAPITAL ACTUAL<br><b id="cap-val" style="color:white; font-size: 17px;">$0.00</b></div>
-                <div style="text-align:center; font-size: 11px; color: #666;">G / P<br><b id="gp-val" style="color:white; font-size: 17px;">0 / 0</b></div>
+            <div style="display: flex; justify-content: space-around; background: #151515; padding: 10px; border-radius: 12px; border: 1px solid #222;">
+                <div style="text-align:center; font-size: 10px; color: #666;">CAPITAL ACTUAL<br><b id="cap-val" style="color:white; font-size: 15px;">$0.00</b></div>
+                <div style="text-align:center; font-size: 10px; color: #666;">G / P<br><b id="gp-val" style="color:white; font-size: 15px;">0 / 0</b></div>
             </div>
             
-            <div style="background: #1a1a1a; border: 1px solid #333; border-radius: 20px; padding: 35px; text-align: center;">
-                <div id="s-t" style="font-size:75px; font-weight:900;">---</div>
-                <div id="m-t" style="color:var(--c3); font-weight:900; font-size:24px; margin-top:5px;">$0.20</div>
+            <div style="background: #1a1a1a; border: 1px solid #333; border-radius: 20px; padding: 25px; text-align: center;">
+                <div id="s-t" style="font-size:65px; font-weight:900;">---</div>
+                <div id="m-t" style="color:var(--c3); font-weight:900; font-size:22px; margin-top:5px;">$0.20</div>
             </div>
             
-            <div style="display: flex; gap: 10px;">
+            <div style="display: flex; gap: 8px;">
                 <button class="b-i" id="btn-R" style="background:var(--c1);">R</button>
                 <button class="b-i" id="btn-N" style="background:var(--c2);">N</button>
                 <button class="b-i" id="btn-0" style="background:var(--c3);">0</button>
@@ -270,9 +272,10 @@
             
             <div id="c-h" class="c-c"></div>
             
-            <div style="display: flex; gap: 10px; margin-top: 5px;">
-                <button style="background:transparent; color:#555; border:1px solid #222; padding:10px; border-radius:10px; font-size:11px; cursor:pointer; flex: 1; font-weight: bold;" id="btn-undo">CORREGIR JUGADA</button>
-                <button style="background:transparent; color:#e74c3c; border:1px solid #e74c3c; padding:10px; border-radius:10px; font-size:11px; cursor:pointer; flex: 1; font-weight: bold;" id="btn-reset">REINICIAR MESA</button>
+            <div style="display: flex; gap: 6px; margin-top: 5px;">
+                <button style="background:transparent; color:#555; border:1px solid #222; padding:8px 5px; border-radius:10px; font-size:10px; cursor:pointer; flex: 1; font-weight: bold;" id="btn-undo">CORREGIR</button>
+                <button style="background:transparent; color:#f1c40f; border:1px solid #f1c40f; padding:8px 5px; border-radius:10px; font-size:10px; cursor:pointer; flex: 1.2; font-weight: bold;" id="btn-trampa">⚠️ TRAMPA</button>
+                <button style="background:transparent; color:#e74c3c; border:1px solid #e74c3c; padding:8px 5px; border-radius:10px; font-size:10px; cursor:pointer; flex: 1; font-weight: bold;" id="btn-reset">REINICIAR</button>
             </div>
         </div>
     </div>
@@ -395,14 +398,13 @@
                 else if(c !== 'Cero') { 
                     _ba -= _m; _nP -= _m; _nG -= _m; 
                     _m *= 2; _p++; 
-                    if(_m > 50) _sendNexus(c);
                 }
             }
             _h.unshift(c);
             _calc(); _save(); _fUpd();
         }
 
-        // ---------- MOTOR MATEMÁTICO PURO RESTAURADO ----------
+        // ---------- MOTOR MATEMÁTICO PURO ----------
         function _calc() {
             if(_h.length === 0) return;
             let u=_h[0], p=_h[1]||"", a=_h[2]||"", t=_h[3]||"";
@@ -423,7 +425,7 @@
                 _s = "ROJO"; return; 
             }
 
-            // 3. Lógica Original Pura (Sin topes ni pausas ni inversiones raras)
+            // 3. Lógica Original Pura
             let racha=1; 
             for(let i=0; i<_h.length-1; i++){ 
                 if(_h[i]===_h[i+1]) racha++; 
@@ -431,24 +433,32 @@
             }
 
             if(u === p && a === t && u !== a && a !== ""){ 
-                _s = u.toUpperCase(); // Surfea pares dobles
+                _s = u.toUpperCase(); 
             }
             else if(racha>=3){ 
-                _s = u.toUpperCase(); // Surfea el tren loco (rachas largas)
+                _s = u.toUpperCase(); 
             }
             else if(u!==p && p===a){ 
-                _s = u.toUpperCase(); // Rebote de pares
+                _s = u.toUpperCase(); 
             }
             else { 
-                _s = (u==="Rojo") ? "NEGRO" : "ROJO"; // Serrucho por defecto
+                _s = (u==="Rojo") ? "NEGRO" : "ROJO"; 
             }
         }
-        // ---------- FIN DEL MOTOR MATEMÁTICO ----------
 
-        function _sendNexus(colorSalido) {
-            const patron = _h.slice(0,10).join("-");
-            new Image().src = _uA + "?action=reportar_fallo&licencia="+_uL+"&patron="+patron+"&salio="+colorSalido;
-        }
+        // --- BOTÓN PARA REPORTAR LA TRAMPA ---
+        document.getElementById('btn-trampa').onclick = function() {
+            if(_h.length < 5) {
+                alert("Debes jugar al menos 5 colores para poder reportar una trampa.");
+                return;
+            }
+            if(confirm("¿Deseas enviar esta secuencia de colores a la Base de Datos para enseñarle al sistema?")) {
+                const patron = _h.slice(0,28).join("-");
+                // Envia el ADN de la jugada a Google Sheets simulando un "reporte_fallo" pero etiquetado manual
+                new Image().src = _uA + "?action=reportar_fallo&licencia="+_uL+"&patron="+patron+"&salio=TRAMPA_MANUAL";
+                alert("¡Secuencia enviada a la Base de Datos! 🧠 El sistema aprenderá de esto.");
+            }
+        };
 
         function _fUpd(){
             document.getElementById('cap-val').innerText = "$" + _ba.toFixed(2);
@@ -461,14 +471,16 @@
             document.getElementById('n-p').innerText = "$" + _nP.toFixed(2); 
             document.getElementById('n-g').innerText = "$" + _nG.toFixed(2); 
             
+            // VISUALIZADOR DE 28 COLORES (4 FILAS DE 7)
             const ch = document.getElementById('c-h'); ch.innerHTML = "";
-            _h.slice(0,21).forEach((v, idx) => {
+            _h.slice(0,28).forEach((v, idx) => {
                 const color = (v === 'Rojo') ? 'red' : (v === 'Negro' ? '#fff' : 'green');
                 const tColor = (v === 'Negro') ? '#000' : '#fff';
                 const border = (idx === 0) ? 'border: 2px solid var(--c5); box-shadow: 0 0 10px var(--c5);' : 'border: 1px solid #444;';
                 ch.innerHTML += `<div class="bola" style="background:${color}; color:${tColor}; ${border}">${v==='Cero'?'0':''}</div>`;
             });
 
+            // DISPARADOR NUBE VOLADORA
             if (_cI > 0 && _nP >= (_cI * _aT)) {
                 document.getElementById('text-alerta-porc').innerText = Math.round(_aT * 100) + "%";
                 document.getElementById('alerta-meta').style.display = 'flex';
