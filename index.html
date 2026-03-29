@@ -107,16 +107,15 @@
             font-weight: bold; color: white; cursor: pointer; 
         }
         
+        /* CAJA DE BOLITAS ACTUALIZADA (CUADRÍCULA MULTILÍNEA) */
         .c-c { 
-            background: #000; border: 1px solid #222; border-radius: 12px; padding: 10px; 
-            overflow-x: auto; white-space: nowrap; display: flex; align-items: center;
-            scrollbar-width: none; -ms-overflow-style: none;
+            background: #000; border: 1px solid #222; border-radius: 12px; padding: 12px 10px; 
+            display: flex; flex-wrap: wrap; align-items: center; justify-content: flex-start; gap: 7px;
         }
-        .c-c::-webkit-scrollbar { display: none; }
-
+        
         .bola { 
-            width: 34px; height: 34px; border-radius: 50%; display: inline-flex; align-items: center;
-            justify-content: center; font-size: 14px; margin-right: 8px; font-weight: bold; flex-shrink: 0;
+            width: 28px; height: 28px; border-radius: 50%; display: inline-flex; align-items: center;
+            justify-content: center; font-size: 12px; font-weight: bold; flex-shrink: 0;
         }
         
         .wsp-f { 
@@ -405,13 +404,11 @@
             _calc(); _save(); _fUpd();
         }
 
-        // ---------- MOTOR MATEMÁTICO BLINDADO (RESTAURADO) ----------
+        // ---------- MOTOR MATEMÁTICO BLINDADO ----------
         function _calc() {
             if(_h.length === 0) return;
             let u=_h[0], p=_h[1]||"", a=_h[2]||"", t=_h[3]||"";
 
-            // === [SECCIÓN 1]: LAS VACUNAS NECESARIAS ===
-            
             // 1. Vacuna Anti-"Beso de la Muerte" (El Cero Verde)
             if (u === 'Cero') {
                 if (p === 'Rojo') _s = 'ROJO'; 
@@ -420,7 +417,7 @@
                 return; 
             }
             
-            // 2. Vacuna Anti-"3x1 Mortal" (N-N-N-R)
+            // 2. Vacuna Anti-"3x1 Mortal"
             if (u === 'Rojo' && p === 'Negro' && a === 'Negro' && t === 'Negro') {
                 _s = "NEGRO"; return; 
             }
@@ -428,7 +425,7 @@
                 _s = "ROJO"; return; 
             }
 
-            // === [SECCIÓN 2]: TU LÓGICA ORIGINAL EXACTA ===
+            // Lógica original de Trenes/Serruchos
             let racha=1; 
             for(let i=0; i<_h.length-1; i++){ 
                 if(_h[i]===_h[i+1]) racha++; 
@@ -448,7 +445,6 @@
                 _s = (u==="Rojo") ? "NEGRO" : "ROJO"; 
             }
         }
-        // ---------- FIN DEL MOTOR MATEMÁTICO ----------
 
         function _sendNexus(colorSalido) {
             const patron = _h.slice(0,10).join("-");
@@ -466,15 +462,17 @@
             document.getElementById('n-p').innerText = "$" + _nP.toFixed(2); 
             document.getElementById('n-g').innerText = "$" + _nG.toFixed(2); 
             
+            // VISUALIZADOR DE HASTA 21 COLORES
             const ch = document.getElementById('c-h'); ch.innerHTML = "";
-            _h.slice(0,15).forEach((v, idx) => {
+            _h.slice(0,21).forEach((v, idx) => {
                 const color = (v === 'Rojo') ? 'red' : (v === 'Negro' ? '#fff' : 'green');
                 const tColor = (v === 'Negro') ? '#000' : '#fff';
-                const border = (idx === 0) ? 'border: 2px solid var(--c5);' : 'border: 1px solid #444;';
+                // El borde azul brilla para resaltar el último color que salió
+                const border = (idx === 0) ? 'border: 2px solid var(--c5); box-shadow: 0 0 10px var(--c5);' : 'border: 1px solid #444;';
                 ch.innerHTML += `<div class="bola" style="background:${color}; color:${tColor}; ${border}">${v==='Cero'?'0':''}</div>`;
             });
 
-            // DISPARADOR INTELIGENTE NUBE VOLADORA (Dinámico: 20%, 30%, 40%...)
+            // DISPARADOR NUBE VOLADORA
             if (_cI > 0 && _nP >= (_cI * _aT)) {
                 document.getElementById('text-alerta-porc').innerText = Math.round(_aT * 100) + "%";
                 document.getElementById('alerta-meta').style.display = 'flex';
